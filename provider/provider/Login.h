@@ -1,4 +1,10 @@
 #pragma once
+#pragma managed(push, off)
+#pragma managed(pop)
+#include <iostream>
+#include "Api.h"
+#include <string>
+#include <json/json.h>
 
 namespace provider {
 
@@ -86,7 +92,6 @@ namespace provider {
 			this->label1->Size = System::Drawing::Size(55, 13);
 			this->label1->TabIndex = 2;
 			this->label1->Text = L"Username";
-			this->label1->Click += gcnew System::EventHandler(this, &Login::label1_Click);
 			// 
 			// label2
 			// 
@@ -105,6 +110,7 @@ namespace provider {
 			this->button1->TabIndex = 4;
 			this->button1->Text = L"Login";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &Login::button1_Click);
 			// 
 			// Login
 			// 
@@ -118,15 +124,22 @@ namespace provider {
 			this->Controls->Add(this->username);
 			this->Name = L"Login";
 			this->Text = L"Login";
-			this->Load += gcnew System::EventHandler(this, &Login::Login_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void Login_Load(System::Object^ sender, System::EventArgs^ e) {
+	
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		Json::StreamWriterBuilder wbuilder;
+		Json::Value text;
+		text["username"] = "joel";
+		text["password"] = "joel123";
+		std::string str{ Json::writeString(wbuilder, text) };
+		Api api;
+
+		api.sendData("http://wider.ntigskovde.se/api/user/authenticate_user.php", str);
+		std::string response{ api.sendData("","") };
 	}
-	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
-	}
-	};
+};
 }
