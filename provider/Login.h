@@ -170,15 +170,14 @@ namespace provider {
 		myfile << response.substr();
 		myfile.close();*/
 
-		//här måste substring fixas, kolla om incorrect finns i response
-		if (response.find(incorrect) != std::string::npos) {
-			MessageBox::Show("Authentication complete!");
+		if (response.find(incorrect) == std::string::npos) {
+			MessageBox::Show("Authentication: Successful!");
 			this->Hide();
 			createCalendar^ Cc = gcnew createCalendar();
 			Cc->ShowDialog();
 		}
 		else {
-			MessageBox::Show("Username and/or Password is incorrect!");
+			MessageBox::Show("Authentication: Failed!");
 		}
 	}
 	private: System::Void username_TextChanged(System::Object^ sender, System::EventArgs^ e) {

@@ -1,4 +1,11 @@
 #pragma once
+#include "Api.h"
+#include "json.hpp"
+#include <string>
+#include <iostream>
+#include "MyEvents.h"
+#include <msclr\marshal_cppstd.h>
+#include <fstream>
 
 namespace provider {
 
@@ -68,7 +75,7 @@ namespace provider {
 			this->label1->BackColor = System::Drawing::Color::Transparent;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15));
 			this->label1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->label1->Location = System::Drawing::Point(75, 68);
+			this->label1->Location = System::Drawing::Point(50, 64);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(200, 25);
 			this->label1->TabIndex = 0;
@@ -82,7 +89,7 @@ namespace provider {
 			this->serviceTitle->Size = System::Drawing::Size(211, 20);
 			this->serviceTitle->TabIndex = 1;
 			// 
-			// createcreateCalendarBtn
+			// createCalendarBtn
 			// 
 			this->createCalendarBtn->Location = System::Drawing::Point(96, 152);
 			this->createCalendarBtn->Name = L"createCalendarBtn";
@@ -90,6 +97,7 @@ namespace provider {
 			this->createCalendarBtn->TabIndex = 2;
 			this->createCalendarBtn->Text = L"Create";
 			this->createCalendarBtn->UseVisualStyleBackColor = true;
+			this->createCalendarBtn->Click += gcnew System::EventHandler(this, &createCalendar::createCalendarBtn_Click);
 			// 
 			// createCalendar
 			// 
@@ -108,6 +116,38 @@ namespace provider {
 		}
 #pragma endregion
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void createCalendarBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		System::String^ Title = serviceTitle->Text;
+
+		msclr::interop::marshal_context context;
+		std::string calTitle = context.marshal_as<std::string>(Title);
+
+		nlohmann::json j;
+		j["serviceTitle"] = calTitle;
+		j["serviceType"] = 2;
+		j["publish"] = 1;
+		std::string json{ j.dump() };
+
+		Api api;
+		std::string response = api.sendData("/api/service/create_service.php", json);
+		std::string incorrect("nono");
+
+		//felsökning!!
+		/*std::ofstream myfile;
+		myfile.open("c:\\data\\example.txt");
+		myfile << response.substr();
+		myfile.close();*/
+
+		if (response.find(incorrect) == std::string::npos) {
+			MessageBox::Show("Calendar creation: Successful!");
+			this->Hide();
+			MyEvents^ Me = gcnew MyEvents();
+			Me->ShowDialog();
+		}
+		else {
+			MessageBox::Show("Calendar creation: Failed!");
+		}
 	}
 	};
 }

@@ -69,7 +69,7 @@ Api::~Api()
 std::string Api::sendData(std::string path, std::string data, std::string key)
 {
 
-    std::string header{ "POST " + path + "?" + key + " HTTP/1.1\r\nHost: wider.ntigskovde.se\r\n\rConnection: close\r\nContent-Length: " + std::to_string(data.size()) + "\r\nContent-Type: application/json\r\n\r\n" + data };
+    std::string header{ "POST " + path + "?API=" + key + " HTTP/1.1\r\nHost: wider.ntigskovde.se\r\n\rConnection: close\r\nContent-Length: " + std::to_string(data.size()) + "\r\nContent-Type: application/json\r\n\r\n" + data };
     const char* sendBuff{ header.c_str() };
     const int buffLength{ 50 };
     char recBuff[buffLength];
@@ -100,4 +100,7 @@ void Api::parseString(std::string& data)
 
     if (i != std::string::npos)
         data.erase(i, serverStr.length());
+    std::string::size_type j = data.find(":");
+    if (j != std::string::npos)
+        data.erase(j, 6);
 }

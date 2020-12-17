@@ -1,4 +1,11 @@
 #pragma once
+#include "Api.h"
+#include "json.hpp"
+#include <string>
+#include <iostream>
+#include "Event.h"
+#include <msclr\marshal_cppstd.h>
+#include <fstream>
 
 namespace provider {
 
@@ -37,40 +44,19 @@ namespace provider {
 
 	protected:
 
-
-
-
-
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^ deleteBtn;
 	private: System::Windows::Forms::Button^ editBtn;
 	private: System::Windows::Forms::Button^ createBtn;
-
-
-
 	private: System::Windows::Forms::TextBox^ inviteID;
-
-
-
-
-
-
-
-
-
 	private: System::Windows::Forms::Label^ label10;
-
-
 	private: System::Windows::Forms::DataGridView^ table;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ eventTitle;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ startDate;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ endDate;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ description;
 	private: System::Windows::Forms::Button^ inviteBtn;
-
-
-
-
+	private: System::Windows::Forms::Button^ Reload;
 	private: System::ComponentModel::IContainer^ components;
 
 	protected:
@@ -102,6 +88,7 @@ namespace provider {
 			this->endDate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->description = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->inviteBtn = (gcnew System::Windows::Forms::Button());
+			this->Reload = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -209,12 +196,23 @@ namespace provider {
 			this->inviteBtn->Text = L"Invite";
 			this->inviteBtn->UseVisualStyleBackColor = true;
 			// 
+			// Reload
+			// 
+			this->Reload->Location = System::Drawing::Point(21, 36);
+			this->Reload->Name = L"Reload";
+			this->Reload->Size = System::Drawing::Size(80, 20);
+			this->Reload->TabIndex = 23;
+			this->Reload->Text = L"Reload";
+			this->Reload->UseVisualStyleBackColor = true;
+			this->Reload->Click += gcnew System::EventHandler(this, &MyEvents::Reload_Click);
+			// 
 			// MyEvents
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(488, 383);
+			this->Controls->Add(this->Reload);
 			this->Controls->Add(this->inviteBtn);
 			this->Controls->Add(this->table);
 			this->Controls->Add(this->label10);
@@ -245,5 +243,8 @@ namespace provider {
 	}
 	private: System::Void inviteBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
-	};
+	private: System::Void Reload_Click(System::Object^ sender, System::EventArgs^ e) {
+
+	}
+};
 }
