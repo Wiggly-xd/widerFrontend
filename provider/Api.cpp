@@ -71,7 +71,7 @@ std::string Api::sendData(std::string path, std::string data, std::string key)
 
     std::string header{ "POST " + path + "?API=" + key + " HTTP/1.1\r\nHost: wider.ntigskovde.se\r\n\rConnection: close\r\nContent-Length: " + std::to_string(data.size()) + "\r\nContent-Type: application/json\r\n\r\n" + data };
     const char* sendBuff{ header.c_str() };
-    const int buffLength{ 50 };
+    const int buffLength{ 512 };
     char recBuff[buffLength];
     mIResult = send(mConnectSocket, sendBuff, static_cast<int>(strlen(sendBuff)), 0);
     if (mIResult == SOCKET_ERROR)
@@ -91,16 +91,24 @@ std::string Api::sendData(std::string path, std::string data, std::string key)
     parseString(response);
     return response;
 }
+
 void Api::parseString(std::string& data)
 {
     //this function removes abit of server response that we don't need. it expects the data so you can performe the change on
-    std::string serverStr{ "Server: LiteSpeed" };
+    std::string serverStr{ "HTTP" };
 
     std::string::size_type i = data.find(serverStr);
 
     if (i != std::string::npos)
-        data.erase(i, serverStr.length());
-    std::string::size_type j = data.find(":");
+       data.erase(i, serverStr.length() + 321);
+    /*std::string::size_type j = data.find(":");
     if (j != std::string::npos)
-        data.erase(j, 6);
+        data.erase(j, 6);*/
+
+    for (int j = 0; j < data.length(); ++j) {
+        if (data[j] == 'G') {
+            data.erase(j, data.length());
+            break;
+        }
+    }
 }

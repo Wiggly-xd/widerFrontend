@@ -167,10 +167,10 @@ namespace provider {
 		std::string incorrect("nono");
 
 		//felsökning!!
-		/*std::ofstream myfile;
+		std::ofstream myfile;
 		myfile.open("c:\\data\\example.txt");
 		myfile << apiKey.substr();
-		myfile.close();*/
+		myfile.close();
 
 		if (apiKey.find(incorrect) == std::string::npos) {
 			MessageBox::Show("Authentication: Successful!");

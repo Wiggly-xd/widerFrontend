@@ -1,4 +1,7 @@
 #include "Login.h"
+#include <string>
+
+std::string apiKey;
 
 using namespace System;
 using namespace System::Windows::Forms;

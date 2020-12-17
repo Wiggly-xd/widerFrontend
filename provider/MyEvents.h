@@ -245,6 +245,15 @@ namespace provider {
 	}
 	private: System::Void Reload_Click(System::Object^ sender, System::EventArgs^ e) {
 
+		Api api;
+		extern std::string apiKey;
+		std::string eventInfo = api.sendData("/api/event/read_event.php", "", apiKey);
+
+		/*std::ofstream myfile;
+		myfile.open("c:\\data\\example.txt");
+		myfile << eventInfo.substr();
+		myfile.close();*/
+
 	}
 };
 }

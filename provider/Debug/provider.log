@@ -1,4 +1,4 @@
-﻿  Login.cpp
-C:\Users\nj\source\repos\provider\provider\Login.cpp(10,33): warning C4829: Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
+﻿  Api.cpp
+C:\Users\nj\source\repos\provider\provider\Api.cpp(108,23): warning C4018: '<': signed/unsigned mismatch
   Api.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   provider.vcxproj -> C:\Users\nj\source\repos\provider\Debug\provider.exe
