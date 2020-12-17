@@ -161,16 +161,18 @@ namespace provider {
 		std::string json{ j.dump() };
 
 		Api api;
-		std::string response = api.sendData("/api/user/authenticate_user.php", json);
+		extern std::string apiKey;
+		apiKey = api.sendData("/api/user/authenticate_user.php", json);
+		apiKey.erase(std::remove_if(apiKey.begin(), apiKey.end(), std::isspace), apiKey.end());
 		std::string incorrect("nono");
 
 		//felsökning!!
 		/*std::ofstream myfile;
 		myfile.open("c:\\data\\example.txt");
-		myfile << response.substr();
+		myfile << apiKey.substr();
 		myfile.close();*/
 
-		if (response.find(incorrect) == std::string::npos) {
+		if (apiKey.find(incorrect) == std::string::npos) {
 			MessageBox::Show("Authentication: Successful!");
 			this->Hide();
 			createCalendar^ Cc = gcnew createCalendar();

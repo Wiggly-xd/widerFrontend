@@ -127,16 +127,18 @@ namespace provider {
 		j["serviceTitle"] = calTitle;
 		j["serviceType"] = 2;
 		j["publish"] = 1;
+		j["userID"] = 1;
 		std::string json{ j.dump() };
 
 		Api api;
-		std::string response = api.sendData("/api/service/create_service.php", json);
-		std::string incorrect("nono");
+		extern std::string apiKey;
+		std::string response = api.sendData("/api/pages/create_service.php", json, apiKey);
+		std::string incorrect("Wrong API");
 
 		//felsökning!!
 		/*std::ofstream myfile;
 		myfile.open("c:\\data\\example.txt");
-		myfile << response.substr();
+		myfile << apiKey.substr();
 		myfile.close();*/
 
 		if (response.find(incorrect) == std::string::npos) {
