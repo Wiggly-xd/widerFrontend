@@ -1,6 +1,0 @@
-C:\Users\nj\source\repos\provider\provider\Debug\provider.vcxprojAssemblyReference.cache
-C:\Users\nj\source\repos\provider\provider\Debug\provider.createCalendar.resources
-C:\Users\nj\source\repos\provider\provider\Debug\provider.Event.resources
-C:\Users\nj\source\repos\provider\provider\Debug\provider.Login.resources
-C:\Users\nj\source\repos\provider\provider\Debug\provider.MyEvents.resources
-C:\Users\nj\source\repos\provider\provider\Debug\provider.vcxproj.GenerateResource.cache
