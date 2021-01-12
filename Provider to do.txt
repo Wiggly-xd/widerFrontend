@@ -2,4 +2,4 @@ Get active userID from login and insert into create calendar and event.
 events and service needs correlation in database.
 fix edit events.
 fix delete events.
-fix invite (select should show something like "SELECT * FROM event WHERE $userID = event.inviteID && user.userID = $userID";
+fix invite (select should show something like "SELECT * FROM event WHERE $userID = event.inviteID && user.userID = $userID";), introduce into the php api if necessary.
