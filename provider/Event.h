@@ -1,5 +1,12 @@
 #pragma once
 
+#include "Api.h"
+#include "json.hpp"
+#include <string>
+#include <iostream>
+#include <msclr\marshal_cppstd.h>
+#include <fstream>
+
 namespace provider {
 
 	using namespace System;
@@ -46,13 +53,16 @@ namespace provider {
 
 	private: System::Windows::Forms::Label^ label4;
 	private: System::Windows::Forms::Button^ createEventBtn;
+	private: System::Windows::Forms::Label^ descriptionText;
+	private: System::Windows::Forms::TextBox^ description;
 
 
 
 
-	private: System::Windows::Forms::Label^ description;
-	private: System::Windows::Forms::TextBox^ description2;
+
+
 	private: System::Windows::Forms::Button^ editEventBtn;
+	private: System::Windows::Forms::DateTimePicker^ dateTimePicker1;
 
 
 
@@ -83,9 +93,10 @@ namespace provider {
 			this->endDate = (gcnew System::Windows::Forms::DateTimePicker());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->createEventBtn = (gcnew System::Windows::Forms::Button());
-			this->description = (gcnew System::Windows::Forms::Label());
-			this->description2 = (gcnew System::Windows::Forms::TextBox());
+			this->descriptionText = (gcnew System::Windows::Forms::Label());
+			this->description = (gcnew System::Windows::Forms::TextBox());
 			this->editEventBtn = (gcnew System::Windows::Forms::Button());
+			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
 			this->SuspendLayout();
 			// 
 			// eventTitle
@@ -109,6 +120,8 @@ namespace provider {
 			// 
 			// startDate
 			// 
+			this->startDate->CustomFormat = L"";
+			this->startDate->Format = System::Windows::Forms::DateTimePickerFormat::Short;
 			this->startDate->Location = System::Drawing::Point(43, 128);
 			this->startDate->Name = L"startDate";
 			this->startDate->Size = System::Drawing::Size(200, 20);
@@ -139,6 +152,8 @@ namespace provider {
 			// 
 			// endDate
 			// 
+			this->endDate->CustomFormat = L"";
+			this->endDate->Format = System::Windows::Forms::DateTimePickerFormat::Short;
 			this->endDate->Location = System::Drawing::Point(43, 181);
 			this->endDate->Name = L"endDate";
 			this->endDate->Size = System::Drawing::Size(200, 20);
@@ -163,26 +178,27 @@ namespace provider {
 			this->createEventBtn->TabIndex = 7;
 			this->createEventBtn->Text = L"Create";
 			this->createEventBtn->UseVisualStyleBackColor = true;
+			this->createEventBtn->Click += gcnew System::EventHandler(this, &Event::createEventBtn_Click);
+			// 
+			// descriptionText
+			// 
+			this->descriptionText->AutoSize = true;
+			this->descriptionText->BackColor = System::Drawing::Color::Transparent;
+			this->descriptionText->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
+			this->descriptionText->Location = System::Drawing::Point(96, 219);
+			this->descriptionText->Name = L"descriptionText";
+			this->descriptionText->Size = System::Drawing::Size(102, 13);
+			this->descriptionText->TabIndex = 8;
+			this->descriptionText->Text = L"Describe your event";
+			this->descriptionText->Click += gcnew System::EventHandler(this, &Event::label5_Click);
 			// 
 			// description
 			// 
-			this->description->AutoSize = true;
-			this->description->BackColor = System::Drawing::Color::Transparent;
-			this->description->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->description->Location = System::Drawing::Point(96, 219);
+			this->description->Location = System::Drawing::Point(43, 235);
+			this->description->Multiline = true;
 			this->description->Name = L"description";
-			this->description->Size = System::Drawing::Size(102, 13);
-			this->description->TabIndex = 8;
-			this->description->Text = L"Describe your event";
-			this->description->Click += gcnew System::EventHandler(this, &Event::label5_Click);
-			// 
-			// description2
-			// 
-			this->description2->Location = System::Drawing::Point(43, 235);
-			this->description2->Multiline = true;
-			this->description2->Name = L"description2";
-			this->description2->Size = System::Drawing::Size(200, 20);
-			this->description2->TabIndex = 9;
+			this->description->Size = System::Drawing::Size(200, 20);
+			this->description->TabIndex = 9;
 			// 
 			// editEventBtn
 			// 
@@ -194,15 +210,23 @@ namespace provider {
 			this->editEventBtn->UseVisualStyleBackColor = true;
 			this->editEventBtn->Click += gcnew System::EventHandler(this, &Event::button2_Click);
 			// 
+			// dateTimePicker1
+			// 
+			this->dateTimePicker1->Location = System::Drawing::Point(287, 335);
+			this->dateTimePicker1->Name = L"dateTimePicker1";
+			this->dateTimePicker1->Size = System::Drawing::Size(23, 20);
+			this->dateTimePicker1->TabIndex = 11;
+			// 
 			// Event
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
-			this->ClientSize = System::Drawing::Size(284, 331);
+			this->ClientSize = System::Drawing::Size(287, 331);
+			this->Controls->Add(this->dateTimePicker1);
 			this->Controls->Add(this->editEventBtn);
-			this->Controls->Add(this->description2);
 			this->Controls->Add(this->description);
+			this->Controls->Add(this->descriptionText);
 			this->Controls->Add(this->createEventBtn);
 			this->Controls->Add(this->label4);
 			this->Controls->Add(this->endDate);
@@ -213,6 +237,7 @@ namespace provider {
 			this->Controls->Add(this->eventTitle);
 			this->Name = L"Event";
 			this->Text = L"Event";
+			this->Load += gcnew System::EventHandler(this, &Event::Event_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -224,5 +249,47 @@ namespace provider {
 	}
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
-	};
+	private: System::Void createEventBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		System::String^ Title = eventTitle->Text;
+		System::String^ start = startDate->Text;
+		System::String^ end = endDate->Text;
+		System::String^ desc = description->Text;
+
+		msclr::interop::marshal_context context;
+		std::string eventTitle = context.marshal_as<std::string>(Title);
+		std::string startDate = context.marshal_as<std::string>(start);
+		std::string endDate = context.marshal_as<std::string>(end);
+		std::string description = context.marshal_as<std::string>(desc);
+
+		std::cout << "startDate: " << startDate << "\n";
+		std::cout << "endDate: " << endDate << "\n";
+
+		nlohmann::json j;
+		j["startDate"] = startDate;
+		j["eventTitle"] = eventTitle;
+		j["description"] = description;
+		j["endDate"] = endDate;
+		j["userID"] = 16;
+		std::string json{ j.dump() };
+
+		std::cout << json;
+
+		Api api;
+		extern std::string apiKey;
+		std::string response = api.sendData("/api/event/create_event.php", json, apiKey);
+		std::string incorrect("Wrong API");
+
+		/*if (response.find(incorrect) == std::string::npos) {
+			MessageBox::Show("Event creation: Successful!");
+			this->Hide();
+			MyEvents^ Me = gcnew MyEvents();
+			Me->ShowDialog();
+		}
+		else {
+			MessageBox::Show("Calendar creation: Failed!");
+		}*/
+	}
+private: System::Void Event_Load(System::Object^ sender, System::EventArgs^ e) {
+}
+};
 }

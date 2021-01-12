@@ -71,7 +71,7 @@ std::string Api::sendData(std::string path, std::string data, std::string key)
 
     std::string header{ "POST " + path + "?API=" + key + " HTTP/1.1\r\nHost: wider.ntigskovde.se\r\n\rConnection: close\r\nContent-Length: " + std::to_string(data.size()) + "\r\nContent-Type: application/json\r\n\r\n" + data };
     const char* sendBuff{ header.c_str() };
-    const int buffLength{ 512 };
+    const int buffLength{ 1500 };
     char recBuff[buffLength];
     mIResult = send(mConnectSocket, sendBuff, static_cast<int>(strlen(sendBuff)), 0);
     if (mIResult == SOCKET_ERROR)
@@ -94,21 +94,34 @@ std::string Api::sendData(std::string path, std::string data, std::string key)
 
 void Api::parseString(std::string& data)
 {
-    //this function removes abit of server response that we don't need. it expects the data so you can performe the change on
     std::string serverStr{ "HTTP" };
 
     std::string::size_type i = data.find(serverStr);
 
-    if (i != std::string::npos)
-       data.erase(i, serverStr.length() + 321);
-    /*std::string::size_type j = data.find(":");
-    if (j != std::string::npos)
-        data.erase(j, 6);*/
+    int lastlast = data.find_last_of("\n");
 
-    for (int j = 0; j < data.length(); ++j) {
-        if (data[j] == 'G') {
-            data.erase(j, data.length());
-            break;
-        }
-    }
+        data.erase(0, lastlast+1);
 }
+/*HTTP / 1.1 200 OK
+
+Connection : close
+
+X - Powered - By : PHP / 7.4.13
+
+Access - Control - Allow - Origin : *
+
+Content - Type : application / json
+
+Access - Control - Allow - Methods : POST
+
+Access - Control - Allow - Headers : Access - Control - Allow - Headers, Content - Type, Access - Control - Allow - Methods, Authorization, X - Requested - With
+
+Content - Length : 20
+
+Date : Thu, 07 Jan 2021 08 : 21 : 09 GMT
+
+Server : LiteSpeed
+
+
+
+6o7CRRHwOa4IhG4A6Wbl*/

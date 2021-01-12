@@ -44,6 +44,7 @@ namespace provider {
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::TextBox^ serviceTitle;
 	private: System::Windows::Forms::Button^ createCalendarBtn;
+	private: System::Windows::Forms::Button^ skipBtn;
 
 
 
@@ -67,6 +68,7 @@ namespace provider {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->serviceTitle = (gcnew System::Windows::Forms::TextBox());
 			this->createCalendarBtn = (gcnew System::Windows::Forms::Button());
+			this->skipBtn = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// label1
@@ -99,12 +101,23 @@ namespace provider {
 			this->createCalendarBtn->UseVisualStyleBackColor = true;
 			this->createCalendarBtn->Click += gcnew System::EventHandler(this, &createCalendar::createCalendarBtn_Click);
 			// 
+			// skipBtn
+			// 
+			this->skipBtn->Location = System::Drawing::Point(210, 223);
+			this->skipBtn->Name = L"skipBtn";
+			this->skipBtn->Size = System::Drawing::Size(75, 23);
+			this->skipBtn->TabIndex = 3;
+			this->skipBtn->Text = L"Skip";
+			this->skipBtn->UseVisualStyleBackColor = true;
+			this->skipBtn->Click += gcnew System::EventHandler(this, &createCalendar::skipBtn_Click);
+			// 
 			// createCalendar
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(297, 258);
+			this->Controls->Add(this->skipBtn);
 			this->Controls->Add(this->createCalendarBtn);
 			this->Controls->Add(this->serviceTitle);
 			this->Controls->Add(this->label1);
@@ -127,7 +140,7 @@ namespace provider {
 		j["serviceTitle"] = calTitle;
 		j["serviceType"] = 2;
 		j["publish"] = 1;
-		j["userID"] = 1;
+		j["userID"] = 16;
 		std::string json{ j.dump() };
 
 		Api api;
@@ -151,5 +164,10 @@ namespace provider {
 			MessageBox::Show("Calendar creation: Failed!");
 		}
 	}
-	};
+	private: System::Void skipBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		this->Hide();
+		MyEvents^ Me = gcnew MyEvents();
+		Me->ShowDialog();
+	}
+};
 }
