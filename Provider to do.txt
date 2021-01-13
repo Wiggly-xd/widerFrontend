@@ -1,5 +1,6 @@
-fix edit events.
-fix delete events.
-reload button can load in same tables multiple times.
-dont give user option to create calender if user already has existing one.
-show password as asterisks.
+TO DO LIST ORDERED BY IMPORTANCE!
+Fix edit events.
+Fix reload button loading in same tables multiple times.
+Dont give user option to create calender if user already has existing one.
+Show password as asterisks.
+Get Winforms texture template and load textures.
