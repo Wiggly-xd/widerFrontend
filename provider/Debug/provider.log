@@ -1,3 +1,7 @@
-﻿  Api.cpp
+﻿  Login.cpp
+C:\Users\nj\source\repos\provider\provider\Login.cpp(11,33): warning C4829: Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
+  MyEvents.cpp
+  createCalendar.cpp
+  Generating Code...
   Api.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   provider.vcxproj -> C:\Users\nj\source\repos\provider\Debug\provider.exe

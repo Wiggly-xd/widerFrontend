@@ -20,4 +20,3 @@ public:
     Api();
     std::string sendData(std::string path, std::string data, std::string key = "");
 };
-    

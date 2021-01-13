@@ -63,6 +63,15 @@ namespace provider {
 
 	private: System::Windows::Forms::Button^ editEventBtn;
 	private: System::Windows::Forms::DateTimePicker^ dateTimePicker1;
+	private: System::Windows::Forms::Button^ back;
+
+
+
+
+
+
+
+
 
 
 
@@ -97,6 +106,7 @@ namespace provider {
 			this->description = (gcnew System::Windows::Forms::TextBox());
 			this->editEventBtn = (gcnew System::Windows::Forms::Button());
 			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
+			this->back = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// eventTitle
@@ -126,7 +136,6 @@ namespace provider {
 			this->startDate->Name = L"startDate";
 			this->startDate->Size = System::Drawing::Size(200, 20);
 			this->startDate->TabIndex = 2;
-			this->startDate->ValueChanged += gcnew System::EventHandler(this, &Event::startDate_ValueChanged);
 			// 
 			// label2
 			// 
@@ -190,7 +199,6 @@ namespace provider {
 			this->descriptionText->Size = System::Drawing::Size(102, 13);
 			this->descriptionText->TabIndex = 8;
 			this->descriptionText->Text = L"Describe your event";
-			this->descriptionText->Click += gcnew System::EventHandler(this, &Event::label5_Click);
 			// 
 			// description
 			// 
@@ -206,9 +214,8 @@ namespace provider {
 			this->editEventBtn->Name = L"editEventBtn";
 			this->editEventBtn->Size = System::Drawing::Size(75, 23);
 			this->editEventBtn->TabIndex = 10;
-			this->editEventBtn->Text = L"Ediit";
+			this->editEventBtn->Text = L"Edit";
 			this->editEventBtn->UseVisualStyleBackColor = true;
-			this->editEventBtn->Click += gcnew System::EventHandler(this, &Event::button2_Click);
 			// 
 			// dateTimePicker1
 			// 
@@ -217,12 +224,23 @@ namespace provider {
 			this->dateTimePicker1->Size = System::Drawing::Size(23, 20);
 			this->dateTimePicker1->TabIndex = 11;
 			// 
+			// back
+			// 
+			this->back->Location = System::Drawing::Point(200, 296);
+			this->back->Name = L"back";
+			this->back->Size = System::Drawing::Size(75, 23);
+			this->back->TabIndex = 12;
+			this->back->Text = L"Close";
+			this->back->UseVisualStyleBackColor = true;
+			this->back->Click += gcnew System::EventHandler(this, &Event::back_Click);
+			// 
 			// Event
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(287, 331);
+			this->Controls->Add(this->back);
 			this->Controls->Add(this->dateTimePicker1);
 			this->Controls->Add(this->editEventBtn);
 			this->Controls->Add(this->description);
@@ -237,18 +255,11 @@ namespace provider {
 			this->Controls->Add(this->eventTitle);
 			this->Name = L"Event";
 			this->Text = L"Event";
-			this->Load += gcnew System::EventHandler(this, &Event::Event_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	private: System::Void label5_Click(System::Object^ sender, System::EventArgs^ e) {
-	}
-	private: System::Void startDate_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
-	}
-	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-	}
 	private: System::Void createEventBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 		System::String^ Title = eventTitle->Text;
 		System::String^ start = startDate->Text;
@@ -270,7 +281,7 @@ namespace provider {
 		j["eventTitle"] = eventTitle;
 		j["description"] = description;
 		j["endDate"] = endDate;
-		j["userID"] = 16;//userID
+		j["userID"] = userID;
 		std::string json{ j.dump() };
 
 		std::cout << json;
@@ -279,7 +290,8 @@ namespace provider {
 		extern std::string apiKey;
 		std::string response = api.sendData("/api/event/create_event.php", json, apiKey);
 	}
-private: System::Void Event_Load(System::Object^ sender, System::EventArgs^ e) {
+private: System::Void back_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
 }
 };
 }

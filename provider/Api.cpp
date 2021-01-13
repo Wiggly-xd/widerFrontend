@@ -8,7 +8,7 @@
 #pragma comment (lib, "AdvApi32.lib")
 #define WIN32_LEAN_AND_MEAN
 
-Api::Api():
+Api::Api() :
     mConnectSocket{ INVALID_SOCKET },
     mPort{ "80" },
     mHost{ "wider.ntigskovde.se" }
@@ -70,43 +70,47 @@ void Api::wDisConnect()
         WSACleanup();
     }
 }
-    //this function expects a path, data and a key. since key is a default argument if nothing is provided the string will be empty
-    std::string Api::sendData(std::string path, std::string data, std::string key)
+//this function expects a path, data and a key. since key is a default argument if nothing is provided the string will be empty
+std::string Api::sendData(std::string path, std::string data, std::string key)
+{
+    wConnect();
+
+    std::string header{ "POST " + path + "?API=" + key + " HTTP/1.1\r\nHost: wider.ntigskovde.se\r\n\rConnection: close\r\nContent-Length: " + std::to_string(data.size()) + "\r\nContent-Type: application/json\r\n\r\n" + data };
+    const char* sendBuff{ header.c_str() };
+    const int buffLength{ 1500 };
+    char recBuff[buffLength];
+    mIResult = send(mConnectSocket, sendBuff, static_cast<int>(strlen(sendBuff)), 0);
+    if (mIResult == SOCKET_ERROR)
     {
-        wConnect();
+        std::cout << "send failed with error " << WSAGetLastError() << '\n';
+        closesocket(mConnectSocket);
+        WSACleanup();
 
-        std::string header{ "POST " + path + "?API=" + key + " HTTP/1.1\r\nHost: wider.ntigskovde.se\r\n\rConnection: close\r\nContent-Length: " + std::to_string(data.size()) + "\r\nContent-Type: application/json\r\n\r\n" + data };
-        const char* sendBuff{ header.c_str() };
-        const int buffLength{ 1500 };
-        char recBuff[buffLength];
-        mIResult = send(mConnectSocket, sendBuff, static_cast<int>(strlen(sendBuff)), 0);
-        if (mIResult == SOCKET_ERROR)
-        {
-            std::cout << "send failed with error " << WSAGetLastError() << '\n';
-            closesocket(mConnectSocket);
-            WSACleanup();
-
-        }
-        do
-        {
-            mIResult = recv(mConnectSocket, recBuff, buffLength, 0);
-            recBuff[buffLength - 1] = '\0';
-
-        } while (mIResult > 0);
-
-        std::string response = recBuff;
-        parseString(response);
-
-        std::cout << "response: " << response << "\n";
-
-        for (int i{ 0 }; i < buffLength; ++i) {
-            recBuff[i] = '\0';
-        }
-
-        std::cout << "response2: " << response << "\n";
-        wDisConnect();
-        return response;
     }
+    do
+    {
+        mIResult = recv(mConnectSocket, recBuff, buffLength, 0);
+        recBuff[buffLength - 1] = '\0';
+
+    } while (mIResult > 0);
+
+    std::string response = recBuff;
+    parseString(response);
+
+    int mosewang = response.find_last_of("}");
+
+    if (mosewang > -1) {
+        for (int i = mosewang + 1; i < response.length(); i++) {
+            response[i] = '\0';
+        }
+    }
+    std::cout << "\n header: " << header;
+    std::cout << "\n recBuff: " << recBuff;
+    std::cout << "\n response: " << response;
+
+    wDisConnect();
+    return response;
+}
 
 void Api::parseString(std::string& data)
 {
@@ -116,5 +120,5 @@ void Api::parseString(std::string& data)
 
     int lastlast = data.find_last_of("\n");
 
-        data.erase(0, lastlast+1);
+    data.erase(0, lastlast + 1);
 }

@@ -141,7 +141,7 @@ namespace provider {
 		j["serviceTitle"] = calTitle;
 		j["serviceType"] = 2;
 		j["publish"] = 1;
-		j["userID"] = 16;//userID
+		j["userID"] = userID;
 		std::string json{ j.dump() };
 
 		Api api;

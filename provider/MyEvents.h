@@ -6,6 +6,7 @@
 #include "Event.h"
 #include <msclr\marshal_cppstd.h>
 #include <fstream>
+#include <windows.h>
 
 namespace provider {
 
@@ -90,10 +91,10 @@ namespace provider {
 			this->startDate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->endDate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->description = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->inviteBtn = (gcnew System::Windows::Forms::Button());
-			this->Reload = (gcnew System::Windows::Forms::Button());
 			this->userID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->inviteID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->inviteBtn = (gcnew System::Windows::Forms::Button());
+			this->Reload = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -194,6 +195,16 @@ namespace provider {
 			this->description->HeaderText = L"Description";
 			this->description->Name = L"description";
 			// 
+			// userID
+			// 
+			this->userID->HeaderText = L"User id";
+			this->userID->Name = L"userID";
+			// 
+			// inviteID
+			// 
+			this->inviteID->HeaderText = L"Invite id";
+			this->inviteID->Name = L"inviteID";
+			// 
 			// inviteBtn
 			// 
 			this->inviteBtn->Location = System::Drawing::Point(578, 348);
@@ -213,16 +224,6 @@ namespace provider {
 			this->Reload->UseVisualStyleBackColor = true;
 			this->Reload->Click += gcnew System::EventHandler(this, &MyEvents::Reload_Click);
 			// 
-			// userID
-			// 
-			this->userID->HeaderText = L"User id";
-			this->userID->Name = L"userID";
-			// 
-			// inviteID
-			// 
-			this->inviteID->HeaderText = L"Invite id";
-			this->inviteID->Name = L"inviteID";
-			// 
 			// MyEvents
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -240,6 +241,7 @@ namespace provider {
 			this->Controls->Add(this->label1);
 			this->Name = L"MyEvents";
 			this->Text = L"MyEvents";
+			this->Load += gcnew System::EventHandler(this, &MyEvents::MyEvents_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -253,7 +255,6 @@ namespace provider {
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Hide();
 		Event^ Me = gcnew Event();
 		Me->ShowDialog();
 	}
@@ -267,10 +268,11 @@ namespace provider {
 
 			Api api;
 			extern std::string apiKey;
-			std::string eventInfo = api.sendData("/api/event/read_event.php", "", apiKey);
+			extern std::string userID;
+			std::string eventInfo = api.sendData("/api/event/read_event.php", "", apiKey + "&userID=" + userID);
 
 			nlohmann::json strjson = nlohmann::json::parse(eventInfo);
-
+			
 			char title[]{ ":" };
 
 			int length = static_cast<int>(std::count(eventInfo.begin(), eventInfo.end(), title[0]));
@@ -292,12 +294,14 @@ namespace provider {
 				String^ userID = gcnew String(uID.c_str());
 				String^ inviteID = gcnew String(iID.c_str());
 
-				this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID);
+				int insert = this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID);
 			}
 
 	}
 private: System::Void table_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 
+}
+private: System::Void MyEvents_Load(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
