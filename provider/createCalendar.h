@@ -77,11 +77,11 @@ namespace provider {
 			this->label1->BackColor = System::Drawing::Color::Transparent;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15));
 			this->label1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->label1->Location = System::Drawing::Point(50, 64);
+			this->label1->Location = System::Drawing::Point(68, 67);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(200, 25);
+			this->label1->Size = System::Drawing::Size(156, 25);
 			this->label1->TabIndex = 0;
-			this->label1->Text = L"createCalendar name";
+			this->label1->Text = L"Create Calendar";
 			this->label1->Click += gcnew System::EventHandler(this, &createCalendar::label1_Click);
 			// 
 			// serviceTitle
@@ -136,23 +136,18 @@ namespace provider {
 		msclr::interop::marshal_context context;
 		std::string calTitle = context.marshal_as<std::string>(Title);
 
+		extern std::string userID;
 		nlohmann::json j;
 		j["serviceTitle"] = calTitle;
 		j["serviceType"] = 2;
 		j["publish"] = 1;
-		j["userID"] = 16;
+		j["userID"] = 16;//userID
 		std::string json{ j.dump() };
 
 		Api api;
 		extern std::string apiKey;
 		std::string response = api.sendData("/api/pages/create_service.php", json, apiKey);
 		std::string incorrect("Wrong API");
-
-		//felsökning!!
-		/*std::ofstream myfile;
-		myfile.open("c:\\data\\example.txt");
-		myfile << apiKey.substr();
-		myfile.close();*/
 
 		if (response.find(incorrect) == std::string::npos) {
 			MessageBox::Show("Calendar creation: Successful!");

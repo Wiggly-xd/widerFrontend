@@ -264,12 +264,13 @@ namespace provider {
 		std::cout << "startDate: " << startDate << "\n";
 		std::cout << "endDate: " << endDate << "\n";
 
+		extern std::string userID;
 		nlohmann::json j;
 		j["startDate"] = startDate;
 		j["eventTitle"] = eventTitle;
 		j["description"] = description;
 		j["endDate"] = endDate;
-		j["userID"] = 16;
+		j["userID"] = 16;//userID
 		std::string json{ j.dump() };
 
 		std::cout << json;
@@ -277,17 +278,6 @@ namespace provider {
 		Api api;
 		extern std::string apiKey;
 		std::string response = api.sendData("/api/event/create_event.php", json, apiKey);
-		std::string incorrect("Wrong API");
-
-		/*if (response.find(incorrect) == std::string::npos) {
-			MessageBox::Show("Event creation: Successful!");
-			this->Hide();
-			MyEvents^ Me = gcnew MyEvents();
-			Me->ShowDialog();
-		}
-		else {
-			MessageBox::Show("Calendar creation: Failed!");
-		}*/
 	}
 private: System::Void Event_Load(System::Object^ sender, System::EventArgs^ e) {
 }

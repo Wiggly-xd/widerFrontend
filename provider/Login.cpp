@@ -2,6 +2,7 @@
 #include <string>
 
 std::string apiKey;
+std::string userID;
 
 using namespace System;
 using namespace System::Windows::Forms;

@@ -163,17 +163,15 @@ namespace provider {
 		Api api;
 		extern std::string apiKey;
 		apiKey = api.sendData("/api/user/authenticate_user.php", json);
-		//apiKey.erase(std::remove_if(apiKey.begin(), apiKey.end(), std::isspace), apiKey.end());
+
+		Api uapi;
+		extern std::string userID;
+		userID = uapi.sendData("/api/user/authenticate_user_getinfo.php", json);
+
 		std::string incorrect("nono");
 
-
-		//felsökning!!
 		std::cout << "key: " << apiKey << "\n";
-
-		/*std::ofstream myfile;
-		myfile.open("c:\\data\\example.txt");
-		myfile << apiKey.substr();
-		myfile.close();*/
+		std::cout << "userID: " << userID << "\n";
 
 		if (apiKey.find(incorrect) == std::string::npos) {
 			MessageBox::Show("Authentication: Successful!");

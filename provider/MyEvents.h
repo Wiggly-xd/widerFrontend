@@ -269,29 +269,13 @@ namespace provider {
 			extern std::string apiKey;
 			std::string eventInfo = api.sendData("/api/event/read_event.php", "", apiKey);
 
-			
-			/*std::ofstream myfile;
-			myfile.open("c:\\data\\example.txt");
-			myfile << eventInfo.substr();
-			myfile.close();*/
-
-			/*
-			Leker bara runt
-			med olika möjliga lösningar.
-			*/
-
 			nlohmann::json strjson = nlohmann::json::parse(eventInfo);
-
-			std::cout << "jsonParsed: " << strjson << "\n";
-
-			//std::cout << "jsonParsedSpecific: " << strjson["data"][1]["eventTitle"] << "\n";
 
 			char title[]{ ":" };
 
 			int length = static_cast<int>(std::count(eventInfo.begin(), eventInfo.end(), title[0]));
 
 			int real_length = (length - 1) / 6;
-			std::cout << "len: " << real_length;
 
 			for (int i = 0; i < real_length; i++) {
 				std::string title = strjson["data"][i]["eventTitle"];

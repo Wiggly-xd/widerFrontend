@@ -87,8 +87,19 @@ std::string Api::sendData(std::string path, std::string data, std::string key)
         recBuff[buffLength - 1] = '\0';
 
     } while (mIResult > 0);
+
     std::string response = recBuff;
     parseString(response);
+
+    std::cout << "response: " << response << "\n";
+
+    for (int i{ 0 }; i < buffLength; ++i) {
+        response = "";
+        recBuff[i] = '\0';
+    }
+
+    std::cout << "response2: " << response << "\n";
+
     return response;
 }
 
@@ -102,26 +113,3 @@ void Api::parseString(std::string& data)
 
         data.erase(0, lastlast+1);
 }
-/*HTTP / 1.1 200 OK
-
-Connection : close
-
-X - Powered - By : PHP / 7.4.13
-
-Access - Control - Allow - Origin : *
-
-Content - Type : application / json
-
-Access - Control - Allow - Methods : POST
-
-Access - Control - Allow - Headers : Access - Control - Allow - Headers, Content - Type, Access - Control - Allow - Methods, Authorization, X - Requested - With
-
-Content - Length : 20
-
-Date : Thu, 07 Jan 2021 08 : 21 : 09 GMT
-
-Server : LiteSpeed
-
-
-
-6o7CRRHwOa4IhG4A6Wbl*/
