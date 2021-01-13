@@ -104,9 +104,6 @@ std::string Api::sendData(std::string path, std::string data, std::string key)
             response[i] = '\0';
         }
     }
-    std::cout << "\n header: " << header;
-    std::cout << "\n recBuff: " << recBuff;
-    std::cout << "\n response: " << response;
 
     wDisConnect();
     return response;
