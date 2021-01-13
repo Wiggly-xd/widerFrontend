@@ -13,8 +13,11 @@ private:
     LPCSTR mHost;
     LPCSTR mPort;
     void parseString(std::string& data);
+    void wConnect();
+    void wDisConnect();
+
 public:
     Api();
     std::string sendData(std::string path, std::string data, std::string key = "");
-    ~Api();
 };
+    

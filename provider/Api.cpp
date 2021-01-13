@@ -13,6 +13,9 @@ Api::Api():
     mPort{ "80" },
     mHost{ "wider.ntigskovde.se" }
 {
+}
+void Api::wConnect()
+{
     //connecting to the server via the constructor
     mIResult = WSAStartup(MAKEWORD(2, 2), &mWsaData);
     if (mIResult != 0)
@@ -53,8 +56,10 @@ Api::Api():
         std::cout << "unable to connect to server\n";
         WSACleanup();
     }
+
+
 }
-Api::~Api()
+void Api::wDisConnect()
 {
     //the destructor will shut down the connection when the object goes out of scope. this is to make sure that as long as the program is running that it will have a connection to the server.
     mIResult = shutdown(mConnectSocket, SD_SEND);
@@ -65,43 +70,43 @@ Api::~Api()
         WSACleanup();
     }
 }
-//this function expects a path, data and a key. since key is a default argument if nothing is provided the string will be empty
-std::string Api::sendData(std::string path, std::string data, std::string key)
-{
-
-    std::string header{ "POST " + path + "?API=" + key + " HTTP/1.1\r\nHost: wider.ntigskovde.se\r\n\rConnection: close\r\nContent-Length: " + std::to_string(data.size()) + "\r\nContent-Type: application/json\r\n\r\n" + data };
-    const char* sendBuff{ header.c_str() };
-    const int buffLength{ 1500 };
-    char recBuff[buffLength];
-    mIResult = send(mConnectSocket, sendBuff, static_cast<int>(strlen(sendBuff)), 0);
-    if (mIResult == SOCKET_ERROR)
+    //this function expects a path, data and a key. since key is a default argument if nothing is provided the string will be empty
+    std::string Api::sendData(std::string path, std::string data, std::string key)
     {
-        std::cout << "send failed with error " << WSAGetLastError() << '\n';
-        closesocket(mConnectSocket);
-        WSACleanup();
+        wConnect();
 
+        std::string header{ "POST " + path + "?API=" + key + " HTTP/1.1\r\nHost: wider.ntigskovde.se\r\n\rConnection: close\r\nContent-Length: " + std::to_string(data.size()) + "\r\nContent-Type: application/json\r\n\r\n" + data };
+        const char* sendBuff{ header.c_str() };
+        const int buffLength{ 1500 };
+        char recBuff[buffLength];
+        mIResult = send(mConnectSocket, sendBuff, static_cast<int>(strlen(sendBuff)), 0);
+        if (mIResult == SOCKET_ERROR)
+        {
+            std::cout << "send failed with error " << WSAGetLastError() << '\n';
+            closesocket(mConnectSocket);
+            WSACleanup();
+
+        }
+        do
+        {
+            mIResult = recv(mConnectSocket, recBuff, buffLength, 0);
+            recBuff[buffLength - 1] = '\0';
+
+        } while (mIResult > 0);
+
+        std::string response = recBuff;
+        parseString(response);
+
+        std::cout << "response: " << response << "\n";
+
+        for (int i{ 0 }; i < buffLength; ++i) {
+            recBuff[i] = '\0';
+        }
+
+        std::cout << "response2: " << response << "\n";
+        wDisConnect();
+        return response;
     }
-    do
-    {
-        mIResult = recv(mConnectSocket, recBuff, buffLength, 0);
-        recBuff[buffLength - 1] = '\0';
-
-    } while (mIResult > 0);
-
-    std::string response = recBuff;
-    parseString(response);
-
-    std::cout << "response: " << response << "\n";
-
-    for (int i{ 0 }; i < buffLength; ++i) {
-        response = "";
-        recBuff[i] = '\0';
-    }
-
-    std::cout << "response2: " << response << "\n";
-
-    return response;
-}
 
 void Api::parseString(std::string& data)
 {
