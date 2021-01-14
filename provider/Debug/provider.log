@@ -1,13 +1,8 @@
-﻿  Api.cpp
-C:\Users\nj\source\repos\provider\provider\Api.cpp(103,38): warning C4018: '<': signed/unsigned mismatch
-  createCalendar.cpp
-  DeleteEvent.cpp
-  EditEvent.cpp
-  Event.cpp
+﻿  Event.cpp
   Login.cpp
 C:\Users\nj\source\repos\provider\provider\Login.cpp(12,33): warning C4829: Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
   MyEvents.cpp
-  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  createCalendar.cpp
   Generating Code...
   Api.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   provider.vcxproj -> C:\Users\nj\source\repos\provider\Debug\provider.exe

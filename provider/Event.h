@@ -56,27 +56,8 @@ namespace provider {
 	private: System::Windows::Forms::Label^ descriptionText;
 	private: System::Windows::Forms::TextBox^ description;
 
-
-
-
-
-
-
 	private: System::Windows::Forms::DateTimePicker^ dateTimePicker1;
 	private: System::Windows::Forms::Button^ back;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	protected:
 
@@ -261,23 +242,29 @@ namespace provider {
 		std::string endDate = context.marshal_as<std::string>(end);
 		std::string description = context.marshal_as<std::string>(desc);
 
-		std::cout << "startDate: " << startDate << "\n";
-		std::cout << "endDate: " << endDate << "\n";
+		if (endDate < startDate) {
+			MessageBox::Show("Timeframe: not allowed!");
+		}
+		else {
 
-		extern std::string userID;
-		nlohmann::json j;
-		j["startDate"] = startDate;
-		j["eventTitle"] = eventTitle;
-		j["description"] = description;
-		j["endDate"] = endDate;
-		j["userID"] = userID;
-		std::string json{ j.dump() };
+			std::cout << "startDate: " << startDate << "\n";
+			std::cout << "endDate: " << endDate << "\n";
 
-		std::cout << json;
+			extern std::string userID;
+			nlohmann::json j;
+			j["startDate"] = startDate;
+			j["eventTitle"] = eventTitle;
+			j["description"] = description;
+			j["endDate"] = endDate;
+			j["userID"] = userID;
+			std::string json{ j.dump() };
 
-		Api api;
-		extern std::string apiKey;
-		std::string response = api.sendData("/api/event/create_event.php", json, apiKey);
+			std::cout << json;
+
+			Api api;
+			extern std::string apiKey;
+			std::string response = api.sendData("/api/event/create_event.php", json, apiKey);
+		}
 	}
 private: System::Void back_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
