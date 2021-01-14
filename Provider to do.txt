@@ -7,4 +7,5 @@ TO DO LIST ORDERED BY IMPORTANCE!
 6.invited users should be able to accept or decline invitation to join calendar.
 7.datagrid doesnt show invited calendars.
 8.load events instantly. // DONE - Niklas
+9.Stop user from creating calendar if they already have one. // DONE - Niklas
 ***ALL DONE***
