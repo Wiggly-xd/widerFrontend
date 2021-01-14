@@ -5,4 +5,5 @@ TO DO LIST ORDERED BY IMPORTANCE!
 4.When the user deletes a event the table should reload.
 5.Remove last row in the datagridview.
 6.invited users should be able to accept or decline invitation to join calendar.
+7.datagrid doesnt show invited calendars.
 ***ALL DONE***
