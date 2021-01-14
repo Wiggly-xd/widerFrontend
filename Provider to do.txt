@@ -1,9 +1,9 @@
 TO DO LIST ORDERED BY IMPORTANCE!
-1.Stop user from being able to edit event when inputs are empty. //DONE - Niklas
+1.Stop user from being able to edit event when inputs are empty. // DONE - Niklas
 2.Add swedish charset to application.
 3.Add list of users to invite when invite button is pressed.
 4.When the user deletes a event the table should reload.
-5.Remove last row in the datagridview.
+5.Remove last row in the datagridview. // DONE - Niklas
 6.invited users should be able to accept or decline invitation to join calendar.
 7.datagrid doesnt show invited calendars.
 8.load events instantly. // DONE - Niklas
