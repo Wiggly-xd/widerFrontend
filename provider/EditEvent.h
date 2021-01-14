@@ -261,29 +261,36 @@ namespace provider {
 		std::string description = context.marshal_as<std::string>(desc);
 		std::string inviteID = context.marshal_as<std::string>(invID);
 
-		Api api;
-		extern std::string apiKey;
-		extern std::string eventID;
-		extern std::string userID;
-
-		nlohmann::json j;
-		j["startDate"] = startDate;
-		j["eventTitle"] = eventTitle;
-		j["description"] = description;
-		j["endDate"] = endDate;
-		j["userID"] = userID;
-		j["eventID"] = eventID;
-		j["inviteID"] = inviteID;
-		std::string json{ j.dump() };
-
-		std::string eventEdited{ api.sendData("/api/event/update_event.php", json, apiKey) };
-		std::string value = "Event Updated";
-
-		if (apiKey.find(value) == std::string::npos) {
-			MessageBox::Show("Event update: Successful!");
+		if (eventTitle.length() == 0 || startDate.length() == 0 || endDate.length() == 0 || description.length() == 0) {
+			MessageBox::Show("Dont leave any blank fields!");
+			this->Hide();
 		}
 		else {
-			MessageBox::Show("Event update: Failed!");
+
+			Api api;
+			extern std::string apiKey;
+			extern std::string eventID;
+			extern std::string userID;
+
+			nlohmann::json j;
+			j["startDate"] = startDate;
+			j["eventTitle"] = eventTitle;
+			j["description"] = description;
+			j["endDate"] = endDate;
+			j["userID"] = userID;
+			j["eventID"] = eventID;
+			j["inviteID"] = inviteID;
+			std::string json{ j.dump() };
+
+			std::string eventEdited{ api.sendData("/api/event/update_event.php", json, apiKey) };
+			std::string value = "Event Updated";
+
+			if (apiKey.find(value) == std::string::npos) {
+				MessageBox::Show("Event update: Successful!");
+			}
+			else {
+				MessageBox::Show("Event update: Failed!");
+			}
 		}
 	}
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {

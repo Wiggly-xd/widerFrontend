@@ -44,7 +44,7 @@ namespace provider {
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::TextBox^ serviceTitle;
 	private: System::Windows::Forms::Button^ createCalendarBtn;
-	private: System::Windows::Forms::Button^ skipBtn;
+
 
 
 
@@ -68,7 +68,6 @@ namespace provider {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->serviceTitle = (gcnew System::Windows::Forms::TextBox());
 			this->createCalendarBtn = (gcnew System::Windows::Forms::Button());
-			this->skipBtn = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// label1
@@ -101,28 +100,18 @@ namespace provider {
 			this->createCalendarBtn->UseVisualStyleBackColor = true;
 			this->createCalendarBtn->Click += gcnew System::EventHandler(this, &createCalendar::createCalendarBtn_Click);
 			// 
-			// skipBtn
-			// 
-			this->skipBtn->Location = System::Drawing::Point(210, 223);
-			this->skipBtn->Name = L"skipBtn";
-			this->skipBtn->Size = System::Drawing::Size(75, 23);
-			this->skipBtn->TabIndex = 3;
-			this->skipBtn->Text = L"Skip";
-			this->skipBtn->UseVisualStyleBackColor = true;
-			this->skipBtn->Click += gcnew System::EventHandler(this, &createCalendar::skipBtn_Click);
-			// 
 			// createCalendar
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(297, 258);
-			this->Controls->Add(this->skipBtn);
 			this->Controls->Add(this->createCalendarBtn);
 			this->Controls->Add(this->serviceTitle);
 			this->Controls->Add(this->label1);
 			this->Name = L"createCalendar";
 			this->Text = L"createCalendar";
+			this->Load += gcnew System::EventHandler(this, &createCalendar::createCalendar_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -159,10 +148,24 @@ namespace provider {
 			MessageBox::Show("Calendar creation: Failed!");
 		}
 	}
-	private: System::Void skipBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-		this->Hide();
+
+private: System::Void createCalendar_Load(System::Object^ sender, System::EventArgs^ e) {
+
+	Api api;
+	extern std::string userID;
+	extern std::string apiKey;
+	std::string exist = api.sendData("/api/pages/read_service_based_on_userID.php", "", apiKey + "&userID=" + userID);
+
+	nlohmann::json jsonData = nlohmann::json::parse(exist);
+	
+	std::string serviceType = jsonData["data"][0]["serviceType"];
+	
+	if (serviceType == "2") {
+		this->Close();
 		MyEvents^ Me = gcnew MyEvents();
 		Me->ShowDialog();
 	}
+
+}
 };
 }

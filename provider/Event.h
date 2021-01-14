@@ -61,7 +61,7 @@ namespace provider {
 
 
 
-	private: System::Windows::Forms::Button^ editEventBtn;
+
 	private: System::Windows::Forms::DateTimePicker^ dateTimePicker1;
 	private: System::Windows::Forms::Button^ back;
 
@@ -104,7 +104,6 @@ namespace provider {
 			this->createEventBtn = (gcnew System::Windows::Forms::Button());
 			this->descriptionText = (gcnew System::Windows::Forms::Label());
 			this->description = (gcnew System::Windows::Forms::TextBox());
-			this->editEventBtn = (gcnew System::Windows::Forms::Button());
 			this->dateTimePicker1 = (gcnew System::Windows::Forms::DateTimePicker());
 			this->back = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
@@ -208,15 +207,6 @@ namespace provider {
 			this->description->Size = System::Drawing::Size(200, 20);
 			this->description->TabIndex = 9;
 			// 
-			// editEventBtn
-			// 
-			this->editEventBtn->Location = System::Drawing::Point(150, 261);
-			this->editEventBtn->Name = L"editEventBtn";
-			this->editEventBtn->Size = System::Drawing::Size(75, 23);
-			this->editEventBtn->TabIndex = 10;
-			this->editEventBtn->Text = L"Edit";
-			this->editEventBtn->UseVisualStyleBackColor = true;
-			// 
 			// dateTimePicker1
 			// 
 			this->dateTimePicker1->Location = System::Drawing::Point(287, 335);
@@ -226,7 +216,7 @@ namespace provider {
 			// 
 			// back
 			// 
-			this->back->Location = System::Drawing::Point(200, 296);
+			this->back->Location = System::Drawing::Point(144, 261);
 			this->back->Name = L"back";
 			this->back->Size = System::Drawing::Size(75, 23);
 			this->back->TabIndex = 12;
@@ -242,7 +232,6 @@ namespace provider {
 			this->ClientSize = System::Drawing::Size(287, 331);
 			this->Controls->Add(this->back);
 			this->Controls->Add(this->dateTimePicker1);
-			this->Controls->Add(this->editEventBtn);
 			this->Controls->Add(this->description);
 			this->Controls->Add(this->descriptionText);
 			this->Controls->Add(this->createEventBtn);
