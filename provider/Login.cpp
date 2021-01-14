@@ -3,6 +3,7 @@
 
 std::string apiKey;
 std::string userID;
+std::string eventID;
 
 using namespace System;
 using namespace System::Windows::Forms;

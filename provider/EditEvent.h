@@ -65,7 +65,7 @@ namespace provider {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -74,6 +74,7 @@ namespace provider {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(EditEvent::typeid));
 			this->eventTitle = (gcnew System::Windows::Forms::TextBox());
 			this->description = (gcnew System::Windows::Forms::TextBox());
 			this->EditEventLabel = (gcnew System::Windows::Forms::Label());
@@ -117,6 +118,7 @@ namespace provider {
 			// 
 			// startDate
 			// 
+			this->startDate->Format = System::Windows::Forms::DateTimePickerFormat::Short;
 			this->startDate->Location = System::Drawing::Point(52, 110);
 			this->startDate->Name = L"startDate";
 			this->startDate->Size = System::Drawing::Size(200, 20);
@@ -124,6 +126,7 @@ namespace provider {
 			// 
 			// endDate
 			// 
+			this->endDate->Format = System::Windows::Forms::DateTimePickerFormat::Short;
 			this->endDate->Location = System::Drawing::Point(52, 156);
 			this->endDate->Name = L"endDate";
 			this->endDate->Size = System::Drawing::Size(200, 20);
@@ -147,6 +150,7 @@ namespace provider {
 			this->editCancelBtn->TabIndex = 6;
 			this->editCancelBtn->Text = L"Cancel";
 			this->editCancelBtn->UseVisualStyleBackColor = true;
+			this->editCancelBtn->Click += gcnew System::EventHandler(this, &EditEvent::editCancelBtn_Click);
 			// 
 			// inviteID
 			// 
@@ -220,6 +224,7 @@ namespace provider {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(309, 331);
 			this->Controls->Add(this->label5);
 			this->Controls->Add(this->label4);
@@ -236,6 +241,7 @@ namespace provider {
 			this->Controls->Add(this->eventTitle);
 			this->Name = L"EditEvent";
 			this->Text = L"Edit Event";
+			this->Load += gcnew System::EventHandler(this, &EditEvent::EditEvent_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -269,8 +275,8 @@ namespace provider {
 		j["eventID"] = eventID;
 		j["inviteID"] = inviteID;
 		std::string json{ j.dump() };
-		
-		std::string eventEdited{ api.sendData("/api/event/update_event.php", strjson, apiKey) };
+
+		std::string eventEdited{ api.sendData("/api/event/update_event.php", json, apiKey) };
 		std::string value = "Event Updated";
 
 		if (apiKey.find(value) == std::string::npos) {
@@ -280,7 +286,12 @@ namespace provider {
 			MessageBox::Show("Event update: Failed!");
 		}
 	}
-private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
+	}
+	private: System::Void EditEvent_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
+private: System::Void editCancelBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	this->Hide();
 }
 };
 }

@@ -7,6 +7,8 @@
 #include <msclr\marshal_cppstd.h>
 #include <fstream>
 #include <windows.h>
+#include "DeleteEvent.h"
+#include "EditEvent.h"
 
 namespace provider {
 
@@ -110,7 +112,7 @@ namespace provider {
 			this->label1->BackColor = System::Drawing::Color::Transparent;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15));
 			this->label1->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->label1->Location = System::Drawing::Point(289, 36);
+			this->label1->Location = System::Drawing::Point(342, 31);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(104, 25);
 			this->label1->TabIndex = 8;
@@ -310,7 +312,10 @@ private: System::Void table_CellContentClick(System::Object^ sender, System::Win
 		String^ eID = row->Cells["eventID"]->Value->ToString();
 
 		msclr::interop::marshal_context context;
-		std::string eventID = context.marshal_as<std::string>(eID);
+		extern std::string eventID;
+		eventID = context.marshal_as<std::string>(eID);
+
+		std::cout << "\n" << "eventID: " << eventID;
 	}
 }
 private: System::Void MyEvents_Load(System::Object^ sender, System::EventArgs^ e) {
@@ -321,20 +326,12 @@ private: System::Void createBtn_Click(System::Object^ sender, System::EventArgs^
 }
 
 private: System::Void deleteBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	Api api;
-	extern std::string apiKey;
-	extern std::string eventID;
-	std::string eventInfo = api.sendData("/api/event/delete_event.php", "", apiKey + "&eventID=" + eventID);
-	std::string value = "Event Deleted";
-
-	if (apiKey.find(value) == std::string::npos) {
-		MessageBox::Show("Event deletion: Successful!");
-	}
-	else {
-		MessageBox::Show("Event deletion: Failed!");
-	}
+	DeleteEvent^ De = gcnew DeleteEvent();
+	De->ShowDialog();
 }
 private: System::Void editBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	EditEvent^ Ee = gcnew EditEvent();
+	Ee->ShowDialog();
 }
 };
 }

@@ -30,6 +30,12 @@
     <ClInclude Include="Api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DeleteEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EditEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Login.cpp">
@@ -45,6 +51,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyEvents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DeleteEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EditEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
