@@ -8,4 +8,5 @@ TO DO LIST ORDERED BY IMPORTANCE!
 7.datagrid doesnt show invited calendars.
 8.load events instantly. // DONE - Niklas
 9.Stop user from creating calendar if they already have one. // DONE - Niklas
+10.Allow user to register.
 ***ALL DONE***
