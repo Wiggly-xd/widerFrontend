@@ -1,3 +1,2 @@
 TO DO LIST ORDERED BY IMPORTANCE!
-Fix reload button loading in same tables multiple times.
-Show password as asterisks.
+***ALL DONE***
