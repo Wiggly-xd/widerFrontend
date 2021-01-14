@@ -1,7 +1,7 @@
 TO DO LIST ORDERED BY IMPORTANCE!
-Stop user from being able to edit event when inputs are empty.
-Add swedish charset to application.
-Add list of users to invite when invite button is pressed.
-When the user deletes a event the table should reload.
-Remove last row in the datagridview.
+1.Stop user from being able to edit event when inputs are empty.
+2.Add swedish charset to application.
+3.Add list of users to invite when invite button is pressed.
+4.When the user deletes a event the table should reload.
+5.Remove last row in the datagridview.
 ***ALL DONE***
