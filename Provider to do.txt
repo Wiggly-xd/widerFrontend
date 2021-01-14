@@ -4,4 +4,5 @@ TO DO LIST ORDERED BY IMPORTANCE!
 3.Add list of users to invite when invite button is pressed.
 4.When the user deletes a event the table should reload.
 5.Remove last row in the datagridview.
+6.invited users should be able to accept or decline invitation to join calendar.
 ***ALL DONE***
