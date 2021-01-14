@@ -90,6 +90,7 @@ namespace provider {
 			// 
 			this->password->Location = System::Drawing::Point(82, 139);
 			this->password->Name = L"password";
+			this->password->PasswordChar = '*';
 			this->password->Size = System::Drawing::Size(217, 20);
 			this->password->TabIndex = 1;
 			// 

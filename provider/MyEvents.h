@@ -270,6 +270,8 @@ namespace provider {
 	}
 	private: System::Void reloadBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 
+			table->Rows->Clear();
+
 			Api api;
 			extern std::string apiKey;
 			extern std::string userID;
