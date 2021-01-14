@@ -1,5 +1,4 @@
 TO DO LIST ORDERED BY IMPORTANCE!
-Fix edit events.
 Fix reload button loading in same tables multiple times.
 Dont give user option to create calender if user already has existing one.
 Show password as asterisks.
