@@ -11,4 +11,5 @@ TO DO LIST ORDERED BY IMPORTANCE!
 10.Allow user to register.
 11.Show todays event.
 12.End date cant be earlier than start date etc.
+13. pretext in edit field.
 ***ALL DONE***
