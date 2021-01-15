@@ -6,6 +6,7 @@
 #include "createCalendar.h"
 #include <msclr\marshal_cppstd.h>
 #include <fstream>
+#include "Register.h"
 
 namespace provider {
 
@@ -50,6 +51,7 @@ namespace provider {
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Button^ loginBtn;
+	private: System::Windows::Forms::LinkLabel^ linkRegister;
 
 
 
@@ -76,6 +78,7 @@ namespace provider {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->loginBtn = (gcnew System::Windows::Forms::Button());
+			this->linkRegister = (gcnew System::Windows::Forms::LinkLabel());
 			this->SuspendLayout();
 			// 
 			// username
@@ -118,7 +121,7 @@ namespace provider {
 			// 
 			// loginBtn
 			// 
-			this->loginBtn->Location = System::Drawing::Point(82, 178);
+			this->loginBtn->Location = System::Drawing::Point(149, 178);
 			this->loginBtn->Name = L"loginBtn";
 			this->loginBtn->Size = System::Drawing::Size(75, 23);
 			this->loginBtn->TabIndex = 4;
@@ -126,12 +129,28 @@ namespace provider {
 			this->loginBtn->UseVisualStyleBackColor = true;
 			this->loginBtn->Click += gcnew System::EventHandler(this, &Login::loginBtn_Click);
 			// 
+			// linkRegister
+			// 
+			this->linkRegister->AutoSize = true;
+			this->linkRegister->BackColor = System::Drawing::Color::Transparent;
+			this->linkRegister->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9));
+			this->linkRegister->LinkColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(192)));
+			this->linkRegister->Location = System::Drawing::Point(122, 204);
+			this->linkRegister->Name = L"linkRegister";
+			this->linkRegister->Size = System::Drawing::Size(132, 15);
+			this->linkRegister->TabIndex = 5;
+			this->linkRegister->TabStop = true;
+			this->linkRegister->Text = L"Dont have an account\?";
+			this->linkRegister->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &Login::linkRegister_LinkClicked);
+			// 
 			// Login
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(374, 278);
+			this->Controls->Add(this->linkRegister);
 			this->Controls->Add(this->loginBtn);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -186,5 +205,9 @@ namespace provider {
 	}
 	private: System::Void username_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
+private: System::Void linkRegister_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e) {
+	Register^ Re = gcnew Register();
+	Re->ShowDialog();
+}
 };
 }

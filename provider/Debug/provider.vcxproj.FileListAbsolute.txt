@@ -6,3 +6,4 @@ C:\Users\nj\source\repos\provider\provider\Debug\provider.vcxproj.GenerateResour
 C:\Users\nj\source\repos\provider\provider\Debug\provider.vcxprojAssemblyReference.cache
 C:\Users\nj\source\repos\provider\provider\Debug\provider.DeleteEvent.resources
 C:\Users\nj\source\repos\provider\provider\Debug\provider.EditEvent.resources
+C:\Users\nj\source\repos\provider\provider\Debug\provider.Register.resources

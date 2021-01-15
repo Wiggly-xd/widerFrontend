@@ -261,6 +261,10 @@ namespace provider {
 		std::string description = context.marshal_as<std::string>(desc);
 		std::string inviteID = context.marshal_as<std::string>(invID);
 
+		if (endDate < startDate) {
+			MessageBox::Show("Timeframe: not allowed!");
+			this->Hide();
+		}else{
 		if (eventTitle.length() == 0 || startDate.length() == 0 || endDate.length() == 0 || description.length() == 0) {
 			MessageBox::Show("Dont leave any blank fields!");
 			this->Hide();
@@ -291,6 +295,7 @@ namespace provider {
 			else {
 				MessageBox::Show("Event update: Failed!");
 			}
+		}
 		}
 	}
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {

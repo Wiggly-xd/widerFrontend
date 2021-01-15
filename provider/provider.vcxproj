@@ -140,6 +140,7 @@
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="MyEvents.cpp" />
+    <ClCompile Include="Register.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Api.h" />
@@ -161,6 +162,9 @@
     <ClInclude Include="MyEvents.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Register.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="createCalendar.resx">
@@ -180,6 +184,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MyEvents.resx">
       <DependentUpon>MyEvents.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Register.resx">
+      <DependentUpon>Register.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -157,13 +157,21 @@ private: System::Void createCalendar_Load(System::Object^ sender, System::EventA
 	std::string exist = api.sendData("/api/pages/read_service_based_on_userID.php", "", apiKey + "&userID=" + userID);
 
 	nlohmann::json jsonData = nlohmann::json::parse(exist);
-	
-	std::string serviceType = jsonData["data"][0]["serviceType"];
-	
-	if (serviceType == "2") {
-		this->Close();
-		MyEvents^ Me = gcnew MyEvents();
-		Me->ShowDialog();
+
+	char type[]{ ":" };
+
+	int length = static_cast<int>(std::count(exist.begin(), exist.end(), type[0]));
+
+	int real_length = (length - 1) / 3;
+
+	for (int i = 0; i < real_length; i++) {
+		std::string serviceType = jsonData["data"][i]["serviceType"];
+
+		if (serviceType == "2") {
+			this->Close();
+			MyEvents^ Me = gcnew MyEvents();
+			Me->ShowDialog();
+		}
 	}
 
 }

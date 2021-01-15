@@ -210,6 +210,7 @@ namespace provider {
 			this->inviteBtn->TabIndex = 22;
 			this->inviteBtn->Text = L"Invite";
 			this->inviteBtn->UseVisualStyleBackColor = true;
+			this->inviteBtn->Click += gcnew System::EventHandler(this, &MyEvents::inviteBtn_Click_1);
 			// 
 			// reloadBtn
 			// 
@@ -382,6 +383,8 @@ private: System::Void deleteBtn_Click(System::Object^ sender, System::EventArgs^
 private: System::Void editBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	EditEvent^ Ee = gcnew EditEvent();
 	Ee->ShowDialog();
+}
+private: System::Void inviteBtn_Click_1(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }

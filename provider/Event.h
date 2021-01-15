@@ -244,26 +244,33 @@ namespace provider {
 
 		if (endDate < startDate) {
 			MessageBox::Show("Timeframe: not allowed!");
+			this->Hide();
 		}
 		else {
+			if (eventTitle.length() == 0 || startDate.length() == 0 || endDate.length() == 0 || description.length() == 0) {
+				MessageBox::Show("Dont leave any blank fields!");
+				this->Hide();
+			}
+			else {
 
-			std::cout << "startDate: " << startDate << "\n";
-			std::cout << "endDate: " << endDate << "\n";
+				std::cout << "startDate: " << startDate << "\n";
+				std::cout << "endDate: " << endDate << "\n";
 
-			extern std::string userID;
-			nlohmann::json j;
-			j["startDate"] = startDate;
-			j["eventTitle"] = eventTitle;
-			j["description"] = description;
-			j["endDate"] = endDate;
-			j["userID"] = userID;
-			std::string json{ j.dump() };
+				extern std::string userID;
+				nlohmann::json j;
+				j["startDate"] = startDate;
+				j["eventTitle"] = eventTitle;
+				j["description"] = description;
+				j["endDate"] = endDate;
+				j["userID"] = userID;
+				std::string json{ j.dump() };
 
-			std::cout << json;
+				std::cout << json;
 
-			Api api;
-			extern std::string apiKey;
-			std::string response = api.sendData("/api/event/create_event.php", json, apiKey);
+				Api api;
+				extern std::string apiKey;
+				std::string response = api.sendData("/api/event/create_event.php", json, apiKey);
+			}
 		}
 	}
 private: System::Void back_Click(System::Object^ sender, System::EventArgs^ e) {
