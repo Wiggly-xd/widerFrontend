@@ -95,6 +95,7 @@ namespace provider {
 			this->eventTitle->Name = L"eventTitle";
 			this->eventTitle->Size = System::Drawing::Size(200, 20);
 			this->eventTitle->TabIndex = 0;
+			this->eventTitle->TextChanged += gcnew System::EventHandler(this, &Event::eventTitle_TextChanged);
 			// 
 			// label1
 			// 
@@ -187,6 +188,7 @@ namespace provider {
 			this->description->Name = L"description";
 			this->description->Size = System::Drawing::Size(200, 20);
 			this->description->TabIndex = 9;
+			this->description->TextChanged += gcnew System::EventHandler(this, &Event::description_TextChanged);
 			// 
 			// dateTimePicker1
 			// 
@@ -225,6 +227,7 @@ namespace provider {
 			this->Controls->Add(this->eventTitle);
 			this->Name = L"Event";
 			this->Text = L"Event";
+			this->Load += gcnew System::EventHandler(this, &Event::Event_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -275,6 +278,12 @@ namespace provider {
 	}
 private: System::Void back_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
+}
+private: System::Void eventTitle_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void description_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void Event_Load(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }

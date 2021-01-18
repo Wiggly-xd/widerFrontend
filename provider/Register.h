@@ -185,7 +185,6 @@ namespace provider {
 		std::cout << "\n" << pasWord;
 		std::cout << "\n" << json;
 
-		/*
 		Api api;
 		std::string response = api.sendData("/api/user/create_user.php", json);
 		std::string correct("User Created");
@@ -196,7 +195,7 @@ namespace provider {
 		}
 		else {
 			MessageBox::Show("Registration: Failed!");
-		}*/
+		}
 	}
 private: System::Void linkLogin_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e) {
 	this->Close();

@@ -123,6 +123,8 @@ namespace provider {
 			this->startDate->Name = L"startDate";
 			this->startDate->Size = System::Drawing::Size(200, 20);
 			this->startDate->TabIndex = 3;
+			this->startDate->Value = System::DateTime(2021, 1, 19, 0, 0, 0, 0);
+			this->startDate->ValueChanged += gcnew System::EventHandler(this, &EditEvent::startDate_ValueChanged);
 			// 
 			// endDate
 			// 
@@ -131,6 +133,7 @@ namespace provider {
 			this->endDate->Name = L"endDate";
 			this->endDate->Size = System::Drawing::Size(200, 20);
 			this->endDate->TabIndex = 4;
+			this->endDate->Value = System::DateTime(2021, 1, 20, 0, 0, 0, 0);
 			// 
 			// editBtn
 			// 
@@ -301,9 +304,38 @@ namespace provider {
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void EditEvent_Load(System::Object^ sender, System::EventArgs^ e) {
+		Api api;
+		extern std::string apiKey;
+		extern std::string eventID;
+		std::string singleEvent = api.sendData("/api/event/read_single_event.php", "", apiKey + "&eventID=" + eventID);
+		nlohmann::json strjson = nlohmann::json::parse(singleEvent);
+
+			std::string title = strjson["eventTitle"];
+			std::string sDate = strjson["startDate"];
+			std::string eDate = strjson["endDate"];
+			std::string desc = strjson["description"];
+			std::string iID = strjson["inviteID"];
+
+			String^ eventTitle = gcnew String(title.c_str());
+
+			String^ startDate = gcnew String(sDate.c_str());
+
+			String^ endDate = gcnew String(eDate.c_str());
+
+			String^ description = gcnew String(desc.c_str());
+
+			String^ inviteID = gcnew String(iID.c_str());
+
+		this->eventTitle->Text = eventTitle;
+		this->startDate->Text = startDate;
+		this->endDate->Text = endDate;
+		this->description->Text = description;
+		this->inviteID->Text = inviteID;
 	}
 private: System::Void editCancelBtn_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Hide();
+}
+private: System::Void startDate_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }

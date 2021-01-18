@@ -138,6 +138,7 @@
     <ClCompile Include="DeleteEvent.cpp" />
     <ClCompile Include="EditEvent.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="Invite.cpp" />
     <ClCompile Include="Login.cpp" />
     <ClCompile Include="MyEvents.cpp" />
     <ClCompile Include="Register.cpp" />
@@ -154,6 +155,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Event.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Invite.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Login.h">
@@ -178,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Event.resx">
       <DependentUpon>Event.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Invite.resx">
+      <DependentUpon>Invite.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.h</DependentUpon>

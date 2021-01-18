@@ -7,3 +7,4 @@ C:\Users\nj\source\repos\provider\provider\Debug\provider.vcxprojAssemblyReferen
 C:\Users\nj\source\repos\provider\provider\Debug\provider.DeleteEvent.resources
 C:\Users\nj\source\repos\provider\provider\Debug\provider.EditEvent.resources
 C:\Users\nj\source\repos\provider\provider\Debug\provider.Register.resources
+C:\Users\nj\source\repos\provider\provider\Debug\provider.Invite.resources
