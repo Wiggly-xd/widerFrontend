@@ -8,7 +8,6 @@
 #include <windows.h>
 
 namespace provider {
-
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -21,6 +20,7 @@ namespace provider {
 	/// </summary>
 	public ref class Invite : public System::Windows::Forms::Form
 	{
+	private: System::String^ curUserID;
 	public:
 		Invite(void)
 		{
@@ -54,7 +54,7 @@ namespace provider {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -71,9 +71,9 @@ namespace provider {
 			this->sendBtn = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->userTable))->BeginInit();
 			this->SuspendLayout();
-			// 
+			//
 			// userTable
-			// 
+			//
 			this->userTable->AllowUserToAddRows = false;
 			this->userTable->AllowUserToDeleteRows = false;
 			this->userTable->AllowUserToOrderColumns = true;
@@ -88,21 +88,21 @@ namespace provider {
 			this->userTable->Size = System::Drawing::Size(243, 231);
 			this->userTable->TabIndex = 0;
 			this->userTable->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Invite::userTable_CellContentClick);
-			// 
+			//
 			// username
-			// 
+			//
 			this->username->HeaderText = L"Username";
 			this->username->Name = L"username";
 			this->username->ReadOnly = true;
-			// 
+			//
 			// userID
-			// 
+			//
 			this->userID->HeaderText = L"ID";
 			this->userID->Name = L"userID";
 			this->userID->ReadOnly = true;
-			// 
+			//
 			// label1
-			// 
+			//
 			this->label1->AutoSize = true;
 			this->label1->BackColor = System::Drawing::Color::Transparent;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15));
@@ -112,9 +112,9 @@ namespace provider {
 			this->label1->Size = System::Drawing::Size(181, 25);
 			this->label1->TabIndex = 1;
 			this->label1->Text = L"Select user to invite";
-			// 
+			//
 			// sendBtn
-			// 
+			//
 			this->sendBtn->Location = System::Drawing::Point(190, 285);
 			this->sendBtn->Name = L"sendBtn";
 			this->sendBtn->Size = System::Drawing::Size(75, 23);
@@ -122,9 +122,9 @@ namespace provider {
 			this->sendBtn->Text = L"Send";
 			this->sendBtn->UseVisualStyleBackColor = true;
 			this->sendBtn->Click += gcnew System::EventHandler(this, &Invite::sendBtn_Click);
-			// 
+			//
 			// Invite
-			// 
+			//
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
@@ -138,7 +138,6 @@ namespace provider {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->userTable))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
-
 		}
 #pragma endregion
 	private: System::Void Invite_Load(System::Object^ sender, System::EventArgs^ e) {
@@ -168,7 +167,6 @@ namespace provider {
 	}
 	private: System::Void userTable_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 		if (e->RowIndex >= 0) {
-
 			DataGridViewRow^ row = userTable->Rows[e->RowIndex];
 
 			String^ uID = row->Cells["userID"]->Value->ToString();
@@ -178,10 +176,39 @@ namespace provider {
 			std::string userID = context.marshal_as<std::string>(uID);
 
 			std::cout << "\n" << "userID: " << userID;
+
+			curUserID = uID;
 		}
 	}
-private: System::Void sendBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	//invite id = userid där extern event id = eventid
-}
-};
+
+	private: System::Void sendBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		Api api;
+		extern std::string apiKey;
+		extern std::string eventID;
+
+		msclr::interop::marshal_context context;
+		std::string convertedCurUserID = context.marshal_as<std::string>(curUserID);
+
+
+		nlohmann::json j;
+		j["inviteID"] = convertedCurUserID;
+		std::string json{ j.dump() };
+
+		std::cout << "\n" << "curUserID: " << convertedCurUserID;
+
+		std::cout << json;
+
+		std::string inviteUser = api.sendData("/api/event/invite_user_event.php", json, apiKey + "&eventID=" + eventID);
+
+		std::string incorrect("user Not Invited");
+
+		if (apiKey.find(incorrect) == std::string::npos) {
+			MessageBox::Show("Invitation: Successful!");
+			this->Hide();
+		}
+		else {
+			MessageBox::Show("Invitation: Failed!");
+		}
+	}
+	};
 }

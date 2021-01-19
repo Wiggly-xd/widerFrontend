@@ -52,9 +52,9 @@ namespace provider {
 
 
 
-	private: System::Windows::Forms::TextBox^ inviteIDsend;
 
-	private: System::Windows::Forms::Label^ label10;
+
+
 
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ eventTitle;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ startDate;
@@ -71,6 +71,7 @@ namespace provider {
 	private: System::Windows::Forms::Button^ editBtn;
 	private: System::Windows::Forms::DataGridView^ table;
 	private: System::Windows::Forms::Button^ inviteBtn;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Today;
 	private: System::ComponentModel::IContainer^ components;
 
 	protected:
@@ -91,8 +92,6 @@ namespace provider {
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyEvents::typeid));
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->inviteIDsend = (gcnew System::Windows::Forms::TextBox());
-			this->label10 = (gcnew System::Windows::Forms::Label());
 			this->table = (gcnew System::Windows::Forms::DataGridView());
 			this->eventTitle = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->startDate = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
@@ -101,6 +100,7 @@ namespace provider {
 			this->userID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->inviteID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->eventID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->Today = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->reloadBtn = (gcnew System::Windows::Forms::Button());
 			this->createBtn = (gcnew System::Windows::Forms::Button());
 			this->deleteBtn = (gcnew System::Windows::Forms::Button());
@@ -121,25 +121,6 @@ namespace provider {
 			this->label1->TabIndex = 8;
 			this->label1->Text = L"My Events";
 			// 
-			// inviteIDsend
-			// 
-			this->inviteIDsend->BackColor = System::Drawing::SystemColors::ControlLightLight;
-			this->inviteIDsend->Location = System::Drawing::Point(597, 348);
-			this->inviteIDsend->Name = L"inviteIDsend";
-			this->inviteIDsend->Size = System::Drawing::Size(75, 20);
-			this->inviteIDsend->TabIndex = 18;
-			// 
-			// label10
-			// 
-			this->label10->AutoSize = true;
-			this->label10->BackColor = System::Drawing::Color::Transparent;
-			this->label10->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->label10->Location = System::Drawing::Point(594, 332);
-			this->label10->Name = L"label10";
-			this->label10->Size = System::Drawing::Size(103, 13);
-			this->label10->TabIndex = 19;
-			this->label10->Text = L"Id of person to invite";
-			// 
 			// table
 			// 
 			this->table->AccessibleName = L"dataGridView";
@@ -150,15 +131,15 @@ namespace provider {
 			this->table->AllowUserToResizeRows = false;
 			this->table->BackgroundColor = System::Drawing::SystemColors::Highlight;
 			this->table->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->table->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(7) {
+			this->table->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(8) {
 				this->eventTitle, this->startDate,
-					this->endDate, this->description, this->userID, this->inviteID, this->eventID
+					this->endDate, this->description, this->userID, this->inviteID, this->eventID, this->Today
 			});
 			this->table->Location = System::Drawing::Point(12, 80);
 			this->table->MultiSelect = false;
 			this->table->Name = L"table";
 			this->table->ReadOnly = true;
-			this->table->Size = System::Drawing::Size(743, 182);
+			this->table->Size = System::Drawing::Size(843, 182);
 			this->table->TabIndex = 21;
 			this->table->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyEvents::table_CellContentClick);
 			// 
@@ -204,6 +185,12 @@ namespace provider {
 			this->eventID->Name = L"eventID";
 			this->eventID->ReadOnly = true;
 			// 
+			// Today
+			// 
+			this->Today->HeaderText = L"Today";
+			this->Today->Name = L"Today";
+			this->Today->ReadOnly = true;
+			// 
 			// reloadBtn
 			// 
 			this->reloadBtn->Location = System::Drawing::Point(21, 36);
@@ -246,9 +233,9 @@ namespace provider {
 			// 
 			// inviteBtn
 			// 
-			this->inviteBtn->Location = System::Drawing::Point(678, 348);
+			this->inviteBtn->Location = System::Drawing::Point(262, 348);
 			this->inviteBtn->Name = L"inviteBtn";
-			this->inviteBtn->Size = System::Drawing::Size(75, 20);
+			this->inviteBtn->Size = System::Drawing::Size(75, 23);
 			this->inviteBtn->TabIndex = 27;
 			this->inviteBtn->Text = L"Invite";
 			this->inviteBtn->UseVisualStyleBackColor = true;
@@ -259,15 +246,13 @@ namespace provider {
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
-			this->ClientSize = System::Drawing::Size(765, 383);
+			this->ClientSize = System::Drawing::Size(866, 383);
 			this->Controls->Add(this->inviteBtn);
 			this->Controls->Add(this->editBtn);
 			this->Controls->Add(this->deleteBtn);
 			this->Controls->Add(this->createBtn);
 			this->Controls->Add(this->reloadBtn);
 			this->Controls->Add(this->table);
-			this->Controls->Add(this->label10);
-			this->Controls->Add(this->inviteIDsend);
 			this->Controls->Add(this->label1);
 			this->Name = L"MyEvents";
 			this->Text = L"MyEvents";
@@ -289,7 +274,6 @@ namespace provider {
 		Api api;
 		extern std::string apiKey;
 		extern std::string userID;
-
 		std::string invitedEvents = api.sendData("/api/event/invite_event.php", "", apiKey + "&userID=" + userID);
 
 		nlohmann::json invjson = nlohmann::json::parse(invitedEvents);
@@ -298,7 +282,7 @@ namespace provider {
 
 		int lengthInv = static_cast<int>(std::count(invitedEvents.begin(), invitedEvents.end(), titleInv[0]));
 
-		int real_lengthInv = (lengthInv - 1) / 6;
+		int real_lengthInv = (lengthInv - 1) / 7;
 
 
 		for (int i = 0; i < real_lengthInv; i++) {
@@ -331,7 +315,7 @@ namespace provider {
 
 		int length = static_cast<int>(std::count(eventInfo.begin(), eventInfo.end(), title[0]));
 
-		int real_length = (length - 1) / 6;
+		int real_length = (length - 1) / 7;
 
 		for (int i = 0; i < real_length; i++) {
 			std::string title = strjson["data"][i]["eventTitle"];
@@ -352,7 +336,6 @@ namespace provider {
 
 			int insert = this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID, eventID);
 		}
-
 	}
 private: System::Void table_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
 	if (e->RowIndex >= 0) {
@@ -374,7 +357,6 @@ private: System::Void MyEvents_Load(System::Object^ sender, System::EventArgs^ e
 	Api api;
 	extern std::string apiKey;
 	extern std::string userID;
-
 	std::string invitedEvents = api.sendData("/api/event/invite_event.php", "", apiKey + "&userID=" + userID);
 
 	nlohmann::json invjson = nlohmann::json::parse(invitedEvents);
@@ -383,7 +365,7 @@ private: System::Void MyEvents_Load(System::Object^ sender, System::EventArgs^ e
 
 	int lengthInv = static_cast<int>(std::count(invitedEvents.begin(), invitedEvents.end(), titleInv[0]));
 
-	int real_lengthInv = (lengthInv - 1) / 6;
+	int real_lengthInv = (lengthInv - 1) / 7;
 
 
 	for (int i = 0; i < real_lengthInv; i++) {
@@ -416,7 +398,7 @@ private: System::Void MyEvents_Load(System::Object^ sender, System::EventArgs^ e
 
 	int length = static_cast<int>(std::count(eventInfo.begin(), eventInfo.end(), title[0]));
 
-	int real_length = (length - 1) / 6;
+	int real_length = (length - 1) / 7;
 
 	for (int i = 0; i < real_length; i++) {
 		std::string title = strjson["data"][i]["eventTitle"];
