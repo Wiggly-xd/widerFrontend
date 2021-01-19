@@ -10,9 +10,9 @@
 #include "DeleteEvent.h"
 #include "EditEvent.h"
 #include "Invite.h"
+#include <ctime>
 
 namespace provider {
-
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -50,18 +50,10 @@ namespace provider {
 
 	private: System::Windows::Forms::Label^ label1;
 
-
-
-
-
-
-
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ eventTitle;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ startDate;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ endDate;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ description;
-
-	private: System::Windows::Forms::Button^ reloadBtn;
 
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ userID;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ inviteID;
@@ -72,16 +64,17 @@ namespace provider {
 	private: System::Windows::Forms::DataGridView^ table;
 	private: System::Windows::Forms::Button^ inviteBtn;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Today;
+	private: System::Windows::Forms::Button^ allEventsBtn;
+	private: System::Windows::Forms::Button^ TodaysEventsBtn;
+
 	private: System::ComponentModel::IContainer^ components;
 
 	protected:
-
 
 	private:
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -101,16 +94,17 @@ namespace provider {
 			this->inviteID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->eventID = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->Today = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->reloadBtn = (gcnew System::Windows::Forms::Button());
 			this->createBtn = (gcnew System::Windows::Forms::Button());
 			this->deleteBtn = (gcnew System::Windows::Forms::Button());
 			this->editBtn = (gcnew System::Windows::Forms::Button());
 			this->inviteBtn = (gcnew System::Windows::Forms::Button());
+			this->allEventsBtn = (gcnew System::Windows::Forms::Button());
+			this->TodaysEventsBtn = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table))->BeginInit();
 			this->SuspendLayout();
-			// 
+			//
 			// label1
-			// 
+			//
 			this->label1->AutoSize = true;
 			this->label1->BackColor = System::Drawing::Color::Transparent;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15));
@@ -120,9 +114,9 @@ namespace provider {
 			this->label1->Size = System::Drawing::Size(104, 25);
 			this->label1->TabIndex = 8;
 			this->label1->Text = L"My Events";
-			// 
+			//
 			// table
-			// 
+			//
 			this->table->AccessibleName = L"dataGridView";
 			this->table->AllowUserToAddRows = false;
 			this->table->AllowUserToDeleteRows = false;
@@ -142,67 +136,57 @@ namespace provider {
 			this->table->Size = System::Drawing::Size(843, 182);
 			this->table->TabIndex = 21;
 			this->table->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyEvents::table_CellContentClick);
-			// 
+			//
 			// eventTitle
-			// 
+			//
 			this->eventTitle->HeaderText = L"Event name";
 			this->eventTitle->Name = L"eventTitle";
 			this->eventTitle->ReadOnly = true;
-			// 
+			//
 			// startDate
-			// 
+			//
 			this->startDate->HeaderText = L"Start date";
 			this->startDate->Name = L"startDate";
 			this->startDate->ReadOnly = true;
-			// 
+			//
 			// endDate
-			// 
+			//
 			this->endDate->HeaderText = L"End date";
 			this->endDate->Name = L"endDate";
 			this->endDate->ReadOnly = true;
-			// 
+			//
 			// description
-			// 
+			//
 			this->description->HeaderText = L"Description";
 			this->description->Name = L"description";
 			this->description->ReadOnly = true;
-			// 
+			//
 			// userID
-			// 
+			//
 			this->userID->HeaderText = L"User id";
 			this->userID->Name = L"userID";
 			this->userID->ReadOnly = true;
-			// 
+			//
 			// inviteID
-			// 
+			//
 			this->inviteID->HeaderText = L"Invite id";
 			this->inviteID->Name = L"inviteID";
 			this->inviteID->ReadOnly = true;
-			// 
+			//
 			// eventID
-			// 
+			//
 			this->eventID->HeaderText = L"Event id";
 			this->eventID->Name = L"eventID";
 			this->eventID->ReadOnly = true;
-			// 
+			//
 			// Today
-			// 
+			//
 			this->Today->HeaderText = L"Today";
 			this->Today->Name = L"Today";
 			this->Today->ReadOnly = true;
-			// 
-			// reloadBtn
-			// 
-			this->reloadBtn->Location = System::Drawing::Point(21, 36);
-			this->reloadBtn->Name = L"reloadBtn";
-			this->reloadBtn->Size = System::Drawing::Size(80, 20);
-			this->reloadBtn->TabIndex = 23;
-			this->reloadBtn->Text = L"Reload";
-			this->reloadBtn->UseVisualStyleBackColor = true;
-			this->reloadBtn->Click += gcnew System::EventHandler(this, &MyEvents::reloadBtn_Click);
-			// 
+			//
 			// createBtn
-			// 
+			//
 			this->createBtn->Location = System::Drawing::Point(17, 348);
 			this->createBtn->Name = L"createBtn";
 			this->createBtn->Size = System::Drawing::Size(75, 23);
@@ -210,9 +194,9 @@ namespace provider {
 			this->createBtn->Text = L"Create";
 			this->createBtn->UseVisualStyleBackColor = true;
 			this->createBtn->Click += gcnew System::EventHandler(this, &MyEvents::createBtn_Click);
-			// 
+			//
 			// deleteBtn
-			// 
+			//
 			this->deleteBtn->Location = System::Drawing::Point(99, 348);
 			this->deleteBtn->Name = L"deleteBtn";
 			this->deleteBtn->Size = System::Drawing::Size(75, 23);
@@ -220,9 +204,9 @@ namespace provider {
 			this->deleteBtn->Text = L"Delete";
 			this->deleteBtn->UseVisualStyleBackColor = true;
 			this->deleteBtn->Click += gcnew System::EventHandler(this, &MyEvents::deleteBtn_Click);
-			// 
+			//
 			// editBtn
-			// 
+			//
 			this->editBtn->Location = System::Drawing::Point(181, 348);
 			this->editBtn->Name = L"editBtn";
 			this->editBtn->Size = System::Drawing::Size(75, 23);
@@ -230,9 +214,9 @@ namespace provider {
 			this->editBtn->Text = L"Edit";
 			this->editBtn->UseVisualStyleBackColor = true;
 			this->editBtn->Click += gcnew System::EventHandler(this, &MyEvents::editBtn_Click);
-			// 
+			//
 			// inviteBtn
-			// 
+			//
 			this->inviteBtn->Location = System::Drawing::Point(262, 348);
 			this->inviteBtn->Name = L"inviteBtn";
 			this->inviteBtn->Size = System::Drawing::Size(75, 23);
@@ -240,18 +224,39 @@ namespace provider {
 			this->inviteBtn->Text = L"Invite";
 			this->inviteBtn->UseVisualStyleBackColor = true;
 			this->inviteBtn->Click += gcnew System::EventHandler(this, &MyEvents::inviteBtn_Click);
-			// 
+			//
+			// allEventsBtn
+			//
+			this->allEventsBtn->Location = System::Drawing::Point(12, 51);
+			this->allEventsBtn->Name = L"allEventsBtn";
+			this->allEventsBtn->Size = System::Drawing::Size(75, 23);
+			this->allEventsBtn->TabIndex = 28;
+			this->allEventsBtn->Text = L"All Events";
+			this->allEventsBtn->UseVisualStyleBackColor = true;
+			this->allEventsBtn->Click += gcnew System::EventHandler(this, &MyEvents::allEventsBtn_Click);
+			//
+			// TodaysEventsBtn
+			//
+			this->TodaysEventsBtn->Location = System::Drawing::Point(93, 51);
+			this->TodaysEventsBtn->Name = L"TodaysEventsBtn";
+			this->TodaysEventsBtn->Size = System::Drawing::Size(96, 23);
+			this->TodaysEventsBtn->TabIndex = 29;
+			this->TodaysEventsBtn->Text = L"Todays Events";
+			this->TodaysEventsBtn->UseVisualStyleBackColor = true;
+			this->TodaysEventsBtn->Click += gcnew System::EventHandler(this, &MyEvents::TodaysEventsBtn_Click);
+			//
 			// MyEvents
-			// 
+			//
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(866, 383);
+			this->Controls->Add(this->TodaysEventsBtn);
+			this->Controls->Add(this->allEventsBtn);
 			this->Controls->Add(this->inviteBtn);
 			this->Controls->Add(this->editBtn);
 			this->Controls->Add(this->deleteBtn);
 			this->Controls->Add(this->createBtn);
-			this->Controls->Add(this->reloadBtn);
 			this->Controls->Add(this->table);
 			this->Controls->Add(this->label1);
 			this->Name = L"MyEvents";
@@ -260,7 +265,6 @@ namespace provider {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
-
 		}
 #pragma endregion
 
@@ -268,7 +272,20 @@ namespace provider {
 	}
 	private: System::Void label12_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
-	private: System::Void reloadBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+	private: System::Void table_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+		if (e->RowIndex >= 0) {
+			DataGridViewRow^ row = table->Rows[e->RowIndex];
+
+			String^ eID = row->Cells["eventID"]->Value->ToString();
+
+			msclr::interop::marshal_context context;
+			extern std::string eventID;
+			eventID = context.marshal_as<std::string>(eID);
+
+			std::cout << "\n" << "eventID: " << eventID;
+		}
+	}
+	private: System::Void MyEvents_Load(System::Object^ sender, System::EventArgs^ e) {
 		table->Rows->Clear();
 
 		Api api;
@@ -283,7 +300,6 @@ namespace provider {
 		int lengthInv = static_cast<int>(std::count(invitedEvents.begin(), invitedEvents.end(), titleInv[0]));
 
 		int real_lengthInv = (lengthInv - 1) / 7;
-
 
 		for (int i = 0; i < real_lengthInv; i++) {
 			std::string titleInv = invjson["data"][i]["eventTitle"];
@@ -301,11 +317,22 @@ namespace provider {
 			String^ userIDInv = gcnew String(uIDInv.c_str());
 			String^ inviteIDInv = gcnew String(iIDInv.c_str());
 			String^ eventIDInv = gcnew String(eIDInv.c_str());
+			std::time_t rawtimeInv;
+			std::tm* timeinfoInv;
+			char bufferInv[80];
 
-			int insertInv = this->table->Rows->Add(eventTitleInv, startDateInv, endDateInv, descriptionInv, userIDInv, inviteIDInv, eventIDInv);
+			std::time(&rawtimeInv);
+			timeinfoInv = std::localtime(&rawtimeInv);
+
+			std::strftime(bufferInv, 80, "%Y-%m-%d", timeinfoInv);
+
+			std::string tConvertInv(bufferInv);
+			String^ todayDateInv = gcnew String(tConvertInv.c_str());
+
+			if (todayDateInv == startDateInv) {
+				int insertInv = this->table->Rows->Add(eventTitleInv, startDateInv, endDateInv, descriptionInv, userIDInv, inviteIDInv, eventIDInv, "true");
+			}
 		}
-
-
 
 		std::string eventInfo = api.sendData("/api/event/read_event.php", "", apiKey + "&userID=" + userID);
 
@@ -334,108 +361,229 @@ namespace provider {
 			String^ inviteID = gcnew String(iID.c_str());
 			String^ eventID = gcnew String(eID.c_str());
 
-			int insert = this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID, eventID);
+			std::time_t rawtime;
+			std::tm* timeinfo;
+			char buffer[80];
+
+			std::time(&rawtime);
+			timeinfo = std::localtime(&rawtime);
+
+			std::strftime(buffer, 80, "%Y-%m-%d", timeinfo);
+
+			std::string tConvert(buffer);
+			String^ todayDate = gcnew String(tConvert.c_str());
+
+			if (todayDate == startDate) {
+				int insert = this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID, eventID, "true");
+			}
 		}
 	}
-private: System::Void table_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-	if (e->RowIndex >= 0) {
-
-		DataGridViewRow^ row = table->Rows[e->RowIndex];
-
-		String^ eID = row->Cells["eventID"]->Value->ToString();
-
-		msclr::interop::marshal_context context;
-		extern std::string eventID;
-		eventID = context.marshal_as<std::string>(eID);
-
-		std::cout << "\n" << "eventID: " << eventID;
-	}
-}
-private: System::Void MyEvents_Load(System::Object^ sender, System::EventArgs^ e) {
-	table->Rows->Clear();
-
-	Api api;
-	extern std::string apiKey;
-	extern std::string userID;
-	std::string invitedEvents = api.sendData("/api/event/invite_event.php", "", apiKey + "&userID=" + userID);
-
-	nlohmann::json invjson = nlohmann::json::parse(invitedEvents);
-
-	char titleInv[]{ ":" };
-
-	int lengthInv = static_cast<int>(std::count(invitedEvents.begin(), invitedEvents.end(), titleInv[0]));
-
-	int real_lengthInv = (lengthInv - 1) / 7;
-
-
-	for (int i = 0; i < real_lengthInv; i++) {
-		std::string titleInv = invjson["data"][i]["eventTitle"];
-		std::string sDateInv = invjson["data"][i]["startDate"];
-		std::string eDateInv = invjson["data"][i]["endDate"];
-		std::string descInv = invjson["data"][i]["description"];
-		std::string uIDInv = invjson["data"][i]["userID"];
-		std::string iIDInv = invjson["data"][i]["inviteID"];
-		std::string eIDInv = invjson["data"][i]["eventID"];
-
-		String^ eventTitleInv = gcnew String(titleInv.c_str());
-		String^ startDateInv = gcnew String(sDateInv.c_str());
-		String^ endDateInv = gcnew String(eDateInv.c_str());
-		String^ descriptionInv = gcnew String(descInv.c_str());
-		String^ userIDInv = gcnew String(uIDInv.c_str());
-		String^ inviteIDInv = gcnew String(iIDInv.c_str());
-		String^ eventIDInv = gcnew String(eIDInv.c_str());
-
-		int insertInv = this->table->Rows->Add(eventTitleInv, startDateInv, endDateInv, descriptionInv, userIDInv, inviteIDInv, eventIDInv);
+	private: System::Void createBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		Event^ Me = gcnew Event();
+		Me->ShowDialog();
 	}
 
-
-
-	std::string eventInfo = api.sendData("/api/event/read_event.php", "", apiKey + "&userID=" + userID);
-
-	nlohmann::json strjson = nlohmann::json::parse(eventInfo);
-
-	char title[]{ ":" };
-
-	int length = static_cast<int>(std::count(eventInfo.begin(), eventInfo.end(), title[0]));
-
-	int real_length = (length - 1) / 7;
-
-	for (int i = 0; i < real_length; i++) {
-		std::string title = strjson["data"][i]["eventTitle"];
-		std::string sDate = strjson["data"][i]["startDate"];
-		std::string eDate = strjson["data"][i]["endDate"];
-		std::string desc = strjson["data"][i]["description"];
-		std::string uID = strjson["data"][i]["userID"];
-		std::string iID = strjson["data"][i]["inviteID"];
-		std::string eID = strjson["data"][i]["eventID"];
-
-		String^ eventTitle = gcnew String(title.c_str());
-		String^ startDate = gcnew String(sDate.c_str());
-		String^ endDate = gcnew String(eDate.c_str());
-		String^ description = gcnew String(desc.c_str());
-		String^ userID = gcnew String(uID.c_str());
-		String^ inviteID = gcnew String(iID.c_str());
-		String^ eventID = gcnew String(eID.c_str());
-
-		int insert = this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID, eventID);
+	private: System::Void deleteBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		DeleteEvent^ De = gcnew DeleteEvent();
+		De->ShowDialog();
 	}
-}
-private: System::Void createBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	Event^ Me = gcnew Event();
-	Me->ShowDialog();
-}
+	private: System::Void editBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		EditEvent^ Ee = gcnew EditEvent();
+		Ee->ShowDialog();
+	}
+	private: System::Void inviteBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		Invite^ In = gcnew Invite();
+		In->ShowDialog();
+	}
+	private: System::Void allEventsBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		table->Rows->Clear();
 
-private: System::Void deleteBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	DeleteEvent^ De = gcnew DeleteEvent();
-	De->ShowDialog();
-}
-private: System::Void editBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	EditEvent^ Ee = gcnew EditEvent();
-	Ee->ShowDialog();
-}
-private: System::Void inviteBtn_Click(System::Object^ sender, System::EventArgs^ e) {
-	Invite^ In = gcnew Invite();
-	In->ShowDialog();
-}
-};
+		Api api;
+		extern std::string apiKey;
+		extern std::string userID;
+		std::string invitedEvents = api.sendData("/api/event/invite_event.php", "", apiKey + "&userID=" + userID);
+
+		nlohmann::json invjson = nlohmann::json::parse(invitedEvents);
+
+		char titleInv[]{ ":" };
+
+		int lengthInv = static_cast<int>(std::count(invitedEvents.begin(), invitedEvents.end(), titleInv[0]));
+
+		int real_lengthInv = (lengthInv - 1) / 7;
+
+		for (int i = 0; i < real_lengthInv; i++) {
+			std::string titleInv = invjson["data"][i]["eventTitle"];
+			std::string sDateInv = invjson["data"][i]["startDate"];
+			std::string eDateInv = invjson["data"][i]["endDate"];
+			std::string descInv = invjson["data"][i]["description"];
+			std::string uIDInv = invjson["data"][i]["userID"];
+			std::string iIDInv = invjson["data"][i]["inviteID"];
+			std::string eIDInv = invjson["data"][i]["eventID"];
+
+			String^ eventTitleInv = gcnew String(titleInv.c_str());
+			String^ startDateInv = gcnew String(sDateInv.c_str());
+			String^ endDateInv = gcnew String(eDateInv.c_str());
+			String^ descriptionInv = gcnew String(descInv.c_str());
+			String^ userIDInv = gcnew String(uIDInv.c_str());
+			String^ inviteIDInv = gcnew String(iIDInv.c_str());
+			String^ eventIDInv = gcnew String(eIDInv.c_str());
+			std::time_t rawtimeInv;
+			std::tm* timeinfoInv;
+			char bufferInv[80];
+
+			std::time(&rawtimeInv);
+			timeinfoInv = std::localtime(&rawtimeInv);
+
+			std::strftime(bufferInv, 80, "%Y-%m-%d", timeinfoInv);
+
+			std::string tConvertInv(bufferInv);
+			String^ todayDateInv = gcnew String(tConvertInv.c_str());
+
+			if (todayDateInv == startDateInv) {
+				int insertInv = this->table->Rows->Add(eventTitleInv, startDateInv, endDateInv, descriptionInv, userIDInv, inviteIDInv, eventIDInv, "true");
+			}
+			else {
+				int insertInv = this->table->Rows->Add(eventTitleInv, startDateInv, endDateInv, descriptionInv, userIDInv, inviteIDInv, eventIDInv, "false");
+			}
+		}
+
+		std::string eventInfo = api.sendData("/api/event/read_event.php", "", apiKey + "&userID=" + userID);
+
+		nlohmann::json strjson = nlohmann::json::parse(eventInfo);
+
+		char title[]{ ":" };
+
+		int length = static_cast<int>(std::count(eventInfo.begin(), eventInfo.end(), title[0]));
+
+		int real_length = (length - 1) / 7;
+
+		for (int i = 0; i < real_length; i++) {
+			std::string title = strjson["data"][i]["eventTitle"];
+			std::string sDate = strjson["data"][i]["startDate"];
+			std::string eDate = strjson["data"][i]["endDate"];
+			std::string desc = strjson["data"][i]["description"];
+			std::string uID = strjson["data"][i]["userID"];
+			std::string iID = strjson["data"][i]["inviteID"];
+			std::string eID = strjson["data"][i]["eventID"];
+
+			String^ eventTitle = gcnew String(title.c_str());
+			String^ startDate = gcnew String(sDate.c_str());
+			String^ endDate = gcnew String(eDate.c_str());
+			String^ description = gcnew String(desc.c_str());
+			String^ userID = gcnew String(uID.c_str());
+			String^ inviteID = gcnew String(iID.c_str());
+			String^ eventID = gcnew String(eID.c_str());
+			std::time_t rawtime;
+			std::tm* timeinfo;
+			char buffer[80];
+
+			std::time(&rawtime);
+			timeinfo = std::localtime(&rawtime);
+
+			std::strftime(buffer, 80, "%Y-%m-%d", timeinfo);
+
+			std::string tConvert(buffer);
+			String^ todayDate = gcnew String(tConvert.c_str());
+
+			if (todayDate == startDate) {
+				int insert = this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID, eventID, "true");
+			}
+			else {
+				int insert = this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID, eventID, "false");
+			}
+		}
+	}
+	private: System::Void TodaysEventsBtn_Click(System::Object^ sender, System::EventArgs^ e) {
+		table->Rows->Clear();
+
+		Api api;
+		extern std::string apiKey;
+		extern std::string userID;
+		std::string invitedEvents = api.sendData("/api/event/invite_event.php", "", apiKey + "&userID=" + userID);
+
+		nlohmann::json invjson = nlohmann::json::parse(invitedEvents);
+
+		char titleInv[]{ ":" };
+
+		int lengthInv = static_cast<int>(std::count(invitedEvents.begin(), invitedEvents.end(), titleInv[0]));
+
+		int real_lengthInv = (lengthInv - 1) / 7;
+
+		for (int i = 0; i < real_lengthInv; i++) {
+			std::string titleInv = invjson["data"][i]["eventTitle"];
+			std::string sDateInv = invjson["data"][i]["startDate"];
+			std::string eDateInv = invjson["data"][i]["endDate"];
+			std::string descInv = invjson["data"][i]["description"];
+			std::string uIDInv = invjson["data"][i]["userID"];
+			std::string iIDInv = invjson["data"][i]["inviteID"];
+			std::string eIDInv = invjson["data"][i]["eventID"];
+
+			String^ eventTitleInv = gcnew String(titleInv.c_str());
+			String^ startDateInv = gcnew String(sDateInv.c_str());
+			String^ endDateInv = gcnew String(eDateInv.c_str());
+			String^ descriptionInv = gcnew String(descInv.c_str());
+			String^ userIDInv = gcnew String(uIDInv.c_str());
+			String^ inviteIDInv = gcnew String(iIDInv.c_str());
+			String^ eventIDInv = gcnew String(eIDInv.c_str());
+			std::time_t rawtimeInv;
+			std::tm* timeinfoInv;
+			char bufferInv[80];
+
+			std::time(&rawtimeInv);
+			timeinfoInv = std::localtime(&rawtimeInv);
+
+			std::strftime(bufferInv, 80, "%Y-%m-%d", timeinfoInv);
+
+			std::string tConvertInv(bufferInv);
+			String^ todayDateInv = gcnew String(tConvertInv.c_str());
+
+			if (todayDateInv == startDateInv) {
+				int insertInv = this->table->Rows->Add(eventTitleInv, startDateInv, endDateInv, descriptionInv, userIDInv, inviteIDInv, eventIDInv, "true");
+			}
+		}
+
+		std::string eventInfo = api.sendData("/api/event/read_event.php", "", apiKey + "&userID=" + userID);
+
+		nlohmann::json strjson = nlohmann::json::parse(eventInfo);
+
+		char title[]{ ":" };
+
+		int length = static_cast<int>(std::count(eventInfo.begin(), eventInfo.end(), title[0]));
+
+		int real_length = (length - 1) / 7;
+
+		for (int i = 0; i < real_length; i++) {
+			std::string title = strjson["data"][i]["eventTitle"];
+			std::string sDate = strjson["data"][i]["startDate"];
+			std::string eDate = strjson["data"][i]["endDate"];
+			std::string desc = strjson["data"][i]["description"];
+			std::string uID = strjson["data"][i]["userID"];
+			std::string iID = strjson["data"][i]["inviteID"];
+			std::string eID = strjson["data"][i]["eventID"];
+
+			String^ eventTitle = gcnew String(title.c_str());
+			String^ startDate = gcnew String(sDate.c_str());
+			String^ endDate = gcnew String(eDate.c_str());
+			String^ description = gcnew String(desc.c_str());
+			String^ userID = gcnew String(uID.c_str());
+			String^ inviteID = gcnew String(iID.c_str());
+			String^ eventID = gcnew String(eID.c_str());
+			std::time_t rawtime;
+			std::tm* timeinfo;
+			char buffer[80];
+
+			std::time(&rawtime);
+			timeinfo = std::localtime(&rawtime);
+
+			std::strftime(buffer, 80, "%Y-%m-%d", timeinfo);
+
+			std::string tConvert(buffer);
+			String^ todayDate = gcnew String(tConvert.c_str());
+
+			if (todayDate == startDate) {
+				int insert = this->table->Rows->Add(eventTitle, startDate, endDate, description, userID, inviteID, eventID, "true");
+			}
+		}
+	}
+	};
 }
